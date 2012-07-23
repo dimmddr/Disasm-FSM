@@ -51,32 +51,32 @@ opcode::modRM::1b::imm(1b);
 80 "ADD" //80/2 "ADC"
 83 "ADD" //83/2 "ADC"
 opcode:: ::1b::imm(1b);
-
+2
 04 "ADD"
 14 "ADC"
 opcode::modRM::1b::imm(2b);
-
+2
 81/0 "ADD"
 81/2 "ADC"
 opcode:: ::1b::imm(2b);
-
+2
 05 "ADD"
 15 "ADC"
 opcode::modRM::1b::imm(4b);
-
+2
 81/0 "ADD"
 81/2 "ADC"
 opcode:: ::1b::imm(4b);
-
+1
 05 "ADD"
 opcode:: ::1b:: ;
-
+4
 06 "PUSH ES"
 16 "PUSH SS"
 0E "PUSH CS"
 1E "PUSH DS"
 opcode::modRM::1b:: ;
-
+4
 00 "ADD"
 01 "ADD"
 02 "ADD"
@@ -112,7 +112,7 @@ AC
 B4
 BC
 modRM:: ::disp(1b)::16;
-64
+56
 40
 41
 42
@@ -170,7 +170,7 @@ modRM:: ::disp(1b)::16;
 7D
 7F
 modRM:: ::disp(1b)::32;
-56
+48
 40
 41
 42
@@ -220,9 +220,11 @@ modRM:: ::disp(1b)::32;
 7D
 7F
 modRM:: ::disp(2b)::16;
+0
 modRM:: ::disp(4b)::32;
+0
 modRM:: :: ::16;
-120
+114
 00
 01
 02
