@@ -1,1 +1,1 @@
-prefix::lock::AS|opcode::modRM::1b::imm(1b)|modRM:: :: ::32;
+prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:lock:AS|prefix:lock:AS|opcode:modRM:1b:imm(1b)|modRM: : :32

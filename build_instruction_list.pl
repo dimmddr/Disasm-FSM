@@ -1,8 +1,9 @@
 use 5.016;
 use warnings;
-use diagnostics;
+#use diagnostics;
 
-my $codesList = shift or die "Give me the file!";
+#my $codesList = shift or die "Give me the file!";
+my $codesList = "classes";
 my $fileName = shift or die "Give me the file!";
 #print $fileName;
 open my $in, "<", $fileName or die "$!";
@@ -21,14 +22,28 @@ while (<$codes>) {
 		push $class{$q}, $qq;
 	}
 }
-
+#foreach(keys %class) {	say $_;	print "@{$class{$_}}\n";}
 foreach (<$in>) {
 	chomp;
 	my @byte = split /\|/, $_;
-	#print "@byte";
-	foreach (@byte) {
-		
+	my @result = ();
+	foreach my $bClass (@byte) {
+		#say $b;
+		#print "@{$class{$b}}\n";
+		my @temp = ();
+		foreach my $b (@{$class{$bClass}}) {
+			if(@result) {
+				push @temp, map {
+					$_." $b";
+				} @result;
+			} else {
+				push @temp, $b;
+			}
+		}
+		@result = @temp;
+		#say "qwer";
 	}
+	map {print $output "$_\n"} @result;
 }
 close $codes;
 close $in;
