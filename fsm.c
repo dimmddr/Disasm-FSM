@@ -15,7 +15,7 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 1000
+#define COUNT 10000
 #define COND 87408
 #define BYTE 256
 #define STARTLINE 16
@@ -60,12 +60,19 @@ void prefixArrayInit() {
 	}
 }
 
-UINT8 getPrefix(INSTRUCTION *instr) {
-	UINT8 b = getByte();
-	_asm{
+PVOID getPrefix(INSTRUCTION *instr) {
 	
+	_asm{
+		mov esi, g_va
+		lodsb
+		mov ecx, 11 ;количество префиксов
+		cld
+		mov edi, [prefixArray[0]]
+		repne scasb
+		je q
+		
+	q:
 	}
-	return b;
 }
 
 void initializeFSM(PVOID va) {
@@ -89,7 +96,7 @@ void getInstruction(INSTRUCTION *instr) {
 	int next = -1;
 	int i = 0;
 	UINT8 b;
-	b = getPrefix(instr);
+	getPrefix(instr);
 	/*
 	while (next != 0) {
 		if(0 <= next) {
@@ -135,9 +142,13 @@ void main(int argc, PSTR argv[])
 	
 	for(ii = 0; ii < COUNT; ++ii) {
 		initializeFSM(va);
+		
 		_asm{
 			lfence
 		}
+		
+		//как оказалось, в данном случае lfence уменьшает стабильность, а не увеличивает. Впрочем не всегда
+		//стабильность она может и уменьшает, но скорость увеличивает, впрочем только на 1 такт
 		tickCount = getticks();
 		for(i = 0; i < COUNT; ++i) {
 			//getByte();
