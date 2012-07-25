@@ -64,13 +64,14 @@ PVOID getPrefix(INSTRUCTION *instr) {
 	
 	_asm{
 		mov esi, g_va
-		lodsb
-		mov ecx, 11 ;количество префиксов
 		cld
+	st:	lodsb
+		mov ecx, 11 ;количество префиксов
 		mov edi, [prefixArray[0]]
 		repne scasb
-		je q
-		
+		jnz q
+		;set bit
+		jmp st
 	q:
 	}
 }
