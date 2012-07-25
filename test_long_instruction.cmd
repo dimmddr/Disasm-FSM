@@ -14,17 +14,12 @@ main proc
 
 commands MACRO
 		rept COUNT
-			db 67h, 0fdh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 03h, 3Ch
-			db 26h, 077h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 03h, 14h
-			db 3fh, 0b8h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 01h, 24h
+			db 3fh, 8fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 02h, 0Ch
+			db 2eh, 04h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 02h, 1Ch
+			db 2fh, 05h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 02h, 1Ch
 			endm
 		endm
-commandsAdd MACRO
-		rept COUNT
-			db 2eh, 26h, 65h, 03h, 7Ch
-			db 3eh, 26h, 65h, 03h, 7Ch
-			endm
-		endm		
+	
 		commands
 		invoke	ExitProcess, 0
 		main endp

@@ -25,10 +25,7 @@ while (<$in>) {
 			$state = $maxstate;
 		}
 	}
-	#push my @table, [&getClearState];
-	#print $output @$_ foreach ($table[0]);
-	#print $output "\n";
-	#last;
+	$state = 0;
 }
 
 foreach(@table) {
