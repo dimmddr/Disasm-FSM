@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <intrin.h>
 #include <stdio.h>
+#include "fsm.h"
 #pragma intrinsic(__rdtsc)
 typedef unsigned __int64 ticks;
 #define getticks __rdtsc
@@ -9,13 +10,12 @@ typedef unsigned __int64 ticks;
 
 #pragma comment(lib, "imagehlp")
 
-
 #define PRINT_ERROR(f, file, line) \
   printf("%s: error %u at %s:%d\n", f, GetLastError(), file, line);
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 100000
+#define COUNT 10000
 #define COND 87408
 #define BYTE 256
 #define STARTLINE 16
@@ -32,20 +32,28 @@ UINT8 getByte() {
 	return res;
 }
 
-VOID prefixCountInit() {
+void prefixArrayInit() {
 	_asm{
 		mov prefixArray[0], 0fh
-		mov prefixArray[1], 0fh
-		mov prefixArray[2], 0fh
-		mov prefixArray[3], 0fh
-		mov prefixArray[4], 0fh
-		mov prefixArray[5], 0fh
-		mov prefixArray[6], 0fh
-		mov prefixArray[7], 0fh
-		mov prefixArray[8], 0fh
-		mov prefixArray[9], 0fh
-		mov prefixArray[10], 0fh
+		mov prefixArray[1], 2fh
+		mov prefixArray[2], 3fh
+		mov prefixArray[3], 66h
+		mov prefixArray[4], 67h
+		mov prefixArray[5], 2eh
+		mov prefixArray[6], 3eh
+		mov prefixArray[7], 36h
+		mov prefixArray[8], 26h
+		mov prefixArray[9], 64h
+		mov prefixArray[10], 65h
 	}
+}
+
+UINT8 getPrefix(INSTRUCTION *instr) {
+	UINT8 b = getByte();
+	_asm{
+	
+	}
+	return b;
 }
 
 void initializeFSM(PVOID va) {
@@ -68,11 +76,12 @@ UINT8 transition(UINT8 state, UINT8 b) {
 	return res;
 }
 
-INT getInstruction() {
-	INT state = 0;
-	INT next = -1;
+void getInstruction(INSTRUCTION *instr) {
+	int state = 0;
+	int next = -1;
 	int i = 0;
-	UINT8 b = getByte();
+	UINT8 b;
+	b = getPrefix(instr);
 	
 	while (next != 0) {
 		if(0 <= next) {
@@ -81,21 +90,21 @@ INT getInstruction() {
 		b = getByte();
 		next = jumpTable[state][b];
 	}
-	//printf("%u\n",i);
-	return state;
+	instr->state = state;
 }
 
-VOID main(INT argc, PSTR argv[])
+void main(int argc, PSTR argv[])
 {
-	INT resInstr[COUNT];
+	UINT resInstr[COUNT];
 	UINT8 state = 0;
 	UINT8 b;
 	LOADED_IMAGE image;
 	PSTR imageFilename;
-	INT i;
-	INT ii;
+	int i;
+	int ii;
 	PVOID va;
 	unsigned __int64 tickCount;
+	INSTRUCTION instr;
 	
 	imageFilename = argv[1];
 	
@@ -105,8 +114,10 @@ VOID main(INT argc, PSTR argv[])
 	}
 	va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
+	
 	initializeTable();
-	printf("let's rock\n");
+	prefixArrayInit();
+	
 	for(ii = 0; ii < COUNT; ++ii) {
 		initializeFSM(va);
 		_asm{
@@ -114,7 +125,7 @@ VOID main(INT argc, PSTR argv[])
 		}
 		tickCount = getticks();
 		for(i = 0; i < COUNT; ++i) {
-			getInstruction();
+			getInstruction(&instr);
 		}
 		
 		tickCount = (getticks() - tickCount);
