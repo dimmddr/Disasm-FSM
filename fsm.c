@@ -15,7 +15,7 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 10000
+#define COUNT 1000
 #define COND 87408
 #define BYTE 256
 #define STARTLINE 16
@@ -27,7 +27,19 @@ UINT jumpTable[COND][BYTE];
 UINT8 prefixArray[PREFIXCOUNT];
 
 UINT8 getByte() {
-	UINT8 res = CURRENT_BYTE;
+	UINT8 res  = CURRENT_BYTE;
+	//все регистры при выходе из функции сбросятся в состояние, в котором они были до начала функции
+	//как убрать два mov с глобальной переменной - я пока не знаю
+	//если их убрать - скорость должна заметно повысится
+	/*
+	_asm{
+		mov esi, g_va
+		lodsb
+		mov res, al
+		mov g_va, esi
+	}
+	*/
+	//так работает быстрее, чем с ассемблерной вставкой выше
 	++((PUINT8) g_va);
 	return res;
 }
@@ -71,10 +83,6 @@ void initializeTable() {
 			}
 	fclose(in);
 }
-UINT8 transition(UINT8 state, UINT8 b) {
-	UINT8 res = jumpTable[state][b];
-	return res;
-}
 
 void getInstruction(INSTRUCTION *instr) {
 	int state = 0;
@@ -82,7 +90,7 @@ void getInstruction(INSTRUCTION *instr) {
 	int i = 0;
 	UINT8 b;
 	b = getPrefix(instr);
-	
+	/*
 	while (next != 0) {
 		if(0 <= next) {
 			state = next;
@@ -90,6 +98,13 @@ void getInstruction(INSTRUCTION *instr) {
 		b = getByte();
 		next = jumpTable[state][b];
 	}
+	*/
+	for(;0 != next;) {
+		if(0 <= next) 
+			state = next;
+		b = getByte();
+		next = jumpTable[state][b];
+	} 
 	instr->state = state;
 }
 
@@ -125,6 +140,7 @@ void main(int argc, PSTR argv[])
 		}
 		tickCount = getticks();
 		for(i = 0; i < COUNT; ++i) {
+			//getByte();
 			getInstruction(&instr);
 		}
 		
