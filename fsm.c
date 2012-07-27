@@ -15,8 +15,8 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 10000
-#define COND 87408
+#define COUNT 100
+#define COND 29188
 #define BYTE 256
 #define STARTLINE 16
 #define PREFIXCOUNT 11
@@ -24,7 +24,8 @@ typedef unsigned __int64 ticks;
 //global variables
 PVOID g_va;
 UINT jumpTable[COND][BYTE];
-UINT8 prefixArray[PREFIXCOUNT];
+char *prefixArray;//[PREFIXCOUNT];
+char *qwer;
 
 UINT8 getByte() {
 	UINT8 res  = CURRENT_BYTE;
@@ -45,34 +46,38 @@ UINT8 getByte() {
 }
 
 void prefixArrayInit() {
+	
 	_asm{
-		mov prefixArray[0], 0fh
-		mov prefixArray[1], 2fh
-		mov prefixArray[2], 3fh
-		mov prefixArray[3], 66h
-		mov prefixArray[4], 67h
-		mov prefixArray[5], 2eh
-		mov prefixArray[6], 3eh
-		mov prefixArray[7], 36h
-		mov prefixArray[8], 26h
-		mov prefixArray[9], 64h
-		mov prefixArray[10], 65h
+	mov prefixArray[0], 0f0h
+	mov prefixArray[1], 2fh
+	mov prefixArray[2], 3fh
+	mov prefixArray[3], 66h
+	mov prefixArray[4], 67h
+	mov prefixArray[5], 2eh
+	mov prefixArray[6], 3eh
+	mov prefixArray[7], 36h
+	mov prefixArray[8], 26h
+	mov prefixArray[9], 64h
+	mov prefixArray[10], 65h
 	}
+	//prefixArray[11] = "\0";
+	//qwer db 0fh, 2fh, 3fh, 66h, 67h, 2eh, 3eh, 36h, 26h, 64h, 65h		
 }
 
-PVOID getPrefix(INSTRUCTION *instr) {
-	
+PVOID getPrefix(INSTRUCTION *instr) {	
+	//getch();
+	//printf("pre\n");
 	_asm{
 		mov esi, g_va
 		cld
-	st:	lodsb
+	start:	lodsb
 		mov ecx, 11 ;количество префиксов
-		mov edi, [prefixArray[0]]
+		mov edi, [prefixArray]
 		repne scasb
 		jnz q
 		;set bit
-		jmp st
-	q:
+		jmp start
+	q:	mov g_va, esi
 	}
 }
 
@@ -97,7 +102,10 @@ void getInstruction(INSTRUCTION *instr) {
 	int next = -1;
 	int i = 0;
 	UINT8 b;
+	
+	//getch();
 	getPrefix(instr);
+	//printf("instr\n");
 	/*
 	while (next != 0) {
 		if(0 <= next) {
@@ -107,6 +115,7 @@ void getInstruction(INSTRUCTION *instr) {
 		next = jumpTable[state][b];
 	}
 	*/
+	
 	for(;0 != next;) {
 		if(0 <= next) 
 			state = next;
@@ -129,7 +138,8 @@ void main(int argc, PSTR argv[])
 	unsigned __int64 tickCount;
 	INSTRUCTION instr;
 	
-	imageFilename = argv[1];
+	//imageFilename = argv[1];
+	imageFilename = "test_long_instruction.exe";
 	
 	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {
 		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
