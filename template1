@@ -1,1 +1,1 @@
-prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:lock:AS|prefix:lock:AS|opcode:modRM:1b:imm(1b)|modRM: : :32
+prefix:lock:AS|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|prefix:onlylock|opcode:modRM:1b: |modRM:sib:disp(1b):32

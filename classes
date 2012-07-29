@@ -1,9 +1,9 @@
 prefix:onlylock
 1
-0f
+f0
 prefix:lock:AS
 11
-0f
+f0
 2f
 3f
 66
@@ -28,7 +28,7 @@ prefix: :AS
 65
 prefix:lock: 
 10
-0f
+f0
 2f
 3f
 66
@@ -478,7 +478,7 @@ allByte
 0c
 0d
 0e
-0f
+0f0
 10
 11
 12
