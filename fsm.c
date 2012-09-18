@@ -23,8 +23,8 @@ typedef unsigned __int64 ticks;
 
 //global variables
 PVOID g_va;
-UINT jumpTable[COND][BYTE];
-char *prefixArray;//[PREFIXCOUNT];
+UINT conditionTable[COND][BYTE];
+UINT8 prefixArray[PREFIXCOUNT];
 char *qwer;
 
 UINT8 getByte() {
@@ -46,33 +46,26 @@ UINT8 getByte() {
 }
 
 void prefixArrayInit() {
-	
-	_asm{
-	mov prefixArray[0], 0f0h
-	mov prefixArray[1], 2fh
-	mov prefixArray[2], 3fh
-	mov prefixArray[3], 66h
-	mov prefixArray[4], 67h
-	mov prefixArray[5], 2eh
-	mov prefixArray[6], 3eh
-	mov prefixArray[7], 36h
-	mov prefixArray[8], 26h
-	mov prefixArray[9], 64h
-	mov prefixArray[10], 65h
-	}
-	//prefixArray[11] = "\0";
-	//qwer db 0fh, 2fh, 3fh, 66h, 67h, 2eh, 3eh, 36h, 26h, 64h, 65h		
+	prefixArray[0] = 0xf0;
+	prefixArray[1] = 0x2f;
+	prefixArray[2] = 0x3f;
+	prefixArray[3] = 0x66;
+	prefixArray[4] = 0x67;
+	prefixArray[5] = 0x2e;
+	prefixArray[6] = 0x3e;
+	prefixArray[7] = 0x36;
+	prefixArray[8] = 0x26;
+	prefixArray[9] = 0x64;
+	prefixArray[10] = 0x65;
 }
 
 PVOID getPrefix(INSTRUCTION *instr) {	
-	//getch();
-	//printf("pre\n");
 	_asm{
 		mov esi, g_va
 		cld
 	start:	lodsb
 		mov ecx, 11 ;количество префиксов
-		mov edi, [prefixArray]
+		lea edi, prefixArray
 		repne scasb
 		jnz q
 		;set bit
@@ -92,7 +85,7 @@ void initializeTable() {
 	in = fopen("result_table.txt", "r");
 	for(i = 0; i < COND; ++i)
 		for(ii = 0; ii < BYTE; ++ii){
-			fscanf(in, "%u", &jumpTable[i][ii]);
+			fscanf(in, "%u", &conditionTable[i][ii]);
 			}
 	fclose(in);
 }
@@ -100,7 +93,6 @@ void initializeTable() {
 void getInstruction(INSTRUCTION *instr) {
 	int state = 0;
 	int next = -1;
-	int i = 0;
 	UINT8 b;
 	
 	//getch();
@@ -112,7 +104,7 @@ void getInstruction(INSTRUCTION *instr) {
 			state = next;
 			}
 		b = getByte();
-		next = jumpTable[state][b];
+		next = conditionTable[state][b];
 	}
 	*/
 	
@@ -120,7 +112,7 @@ void getInstruction(INSTRUCTION *instr) {
 		if(0 <= next) 
 			state = next;
 		b = getByte();
-		next = jumpTable[state][b];
+		next = conditionTable[state][b];
 	} 
 	instr->state = state;
 }
@@ -147,7 +139,6 @@ void main(int argc, PSTR argv[])
 	}
 	va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
-	
 	initializeTable();
 	prefixArrayInit();
 	
@@ -157,9 +148,6 @@ void main(int argc, PSTR argv[])
 		_asm{
 			lfence
 		}
-		
-		//как оказалось, в данном случае lfence уменьшает стабильность, а не увеличивает. Впрочем не всегда
-		//стабильность она может и уменьшает, но скорость увеличивает, впрочем только на 1 такт
 		tickCount = getticks();
 		for(i = 0; i < COUNT; ++i) {
 			//getByte();
@@ -171,4 +159,5 @@ void main(int argc, PSTR argv[])
 	}
 	for(ii = 0; ii < COUNT; ++ii) 
 		printf("%d \n", resInstr[ii]/COUNT);
+		
 }
