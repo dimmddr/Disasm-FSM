@@ -15,8 +15,9 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 100
-#define COND 29188
+#define COUNT 1000
+#define TRYCOUNT 1
+#define COND 37
 #define BYTE 256
 #define STARTLINE 16
 #define PREFIXCOUNT 11
@@ -47,29 +48,33 @@ UINT8 getByte() {
 
 void prefixArrayInit() {
 	prefixArray[0] = 0xf0;
-	prefixArray[1] = 0x2f;
-	prefixArray[2] = 0x3f;
-	prefixArray[3] = 0x66;
-	prefixArray[4] = 0x67;
-	prefixArray[5] = 0x2e;
-	prefixArray[6] = 0x3e;
-	prefixArray[7] = 0x36;
-	prefixArray[8] = 0x26;
-	prefixArray[9] = 0x64;
-	prefixArray[10] = 0x65;
+	prefixArray[1] = 0x65;
+	prefixArray[2] = 0x2f;
+	prefixArray[3] = 0x3f;
+	prefixArray[4] = 0x66;
+	prefixArray[5] = 0x67;
+	prefixArray[6] = 0x2e;
+	prefixArray[7] = 0x3e;
+	prefixArray[8] = 0x36;
+	prefixArray[9] = 0x26;
+	prefixArray[10] = 0x64;
 }
 
-PVOID getPrefix(INSTRUCTION *instr) {	
+PVOID getPrefix(INSTRUCTION *instr) {
 	_asm{
 		mov esi, g_va
 		cld
-	start:	lodsb
-		mov ecx, 11 ;количество префиксов
+	start:	
 		lea edi, prefixArray
-		repne scasb
-		jnz q
+		mov ecx, 11 ;количество префиксов
+		;REPNE SCAS m16 Find AX, starting at ES:[(E)DI]
+		;Compare AL with byte at ES:(E)DI or RDI then set status flags
+		repe scasb
+		;repne scasb
+		;jnz q
+		jz start
 		;set bit
-		jmp start
+		;jmp start
 	q:	mov g_va, esi
 	}
 }
@@ -91,12 +96,18 @@ void initializeTable() {
 }
 
 void getInstruction(INSTRUCTION *instr) {
-	int state = 0;
+	UINT state = 0;
 	int next = -1;
 	UINT8 b;
-	
-	//getch();
+	/*
+	printf("before %x\n",CURRENT_BYTE);
+	getch();
+	*/
 	getPrefix(instr);
+	/*
+	printf("after %x\n",CURRENT_BYTE);
+	getch();
+	*/
 	//printf("instr\n");
 	/*
 	while (next != 0) {
@@ -109,17 +120,21 @@ void getInstruction(INSTRUCTION *instr) {
 	*/
 	
 	for(;0 != next;) {
-		if(0 <= next) 
-			state = next;
+		if(0 < next) 
+			state = (UINT) next;
 		b = getByte();
+		//printf("next 1 %d\n", next);
+		//printf("state in cycle %d\n", state);
 		next = conditionTable[state][b];
+		//printf("next 2 %d\n", next);
 	} 
+	//printf("state %u\n", state);
 	instr->state = state;
 }
 
 void main(int argc, PSTR argv[])
 {
-	UINT resInstr[COUNT];
+	UINT resInstr[TRYCOUNT];
 	UINT8 state = 0;
 	UINT8 b;
 	LOADED_IMAGE image;
@@ -128,10 +143,13 @@ void main(int argc, PSTR argv[])
 	int ii;
 	PVOID va;
 	unsigned __int64 tickCount;
-	INSTRUCTION instr;
+	INSTRUCTION instr[COUNT];
+	
+	for(i = 0; i < COUNT; ++i)
+		instr[i].state = 0;
 	
 	//imageFilename = argv[1];
-	imageFilename = "test_long_instruction.exe";
+	imageFilename = "test_prefix.exe";
 	
 	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {
 		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
@@ -141,8 +159,8 @@ void main(int argc, PSTR argv[])
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
 	initializeTable();
 	prefixArrayInit();
-	
-	for(ii = 0; ii < COUNT; ++ii) {
+	//printf("start\n");
+	for(ii = 0; ii < TRYCOUNT; ++ii) {
 		initializeFSM(va);
 		
 		_asm{
@@ -151,13 +169,20 @@ void main(int argc, PSTR argv[])
 		tickCount = getticks();
 		for(i = 0; i < COUNT; ++i) {
 			//getByte();
-			getInstruction(&instr);
+			//printf("%d\n", i);
+			getInstruction(&instr[i]);
 		}
-		
 		tickCount = (getticks() - tickCount);
+		//printf("stop\n");
 		resInstr[ii] = tickCount;
 	}
-	for(ii = 0; ii < COUNT; ++ii) 
-		printf("%d \n", resInstr[ii]/COUNT);
-		
+	
+	for(ii = 0; ii < COUNT; ++ii) {
+		printf("%u \n", instr[ii].state);
+	}
+	
+	for(ii = 0; ii < TRYCOUNT; ++ii) 
+		printf("%d \n",resInstr[TRYCOUNT]/COUNT);
+	
+	
 }
