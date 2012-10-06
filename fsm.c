@@ -22,6 +22,8 @@ typedef unsigned __int64 ticks;
 #define STARTLINE 16
 #define PREFIXCOUNT 11
 
+VOID _stdcall disasm(PVOID, PVOID, UINT);
+
 //global variables
 PVOID g_va;
 UINT conditionTable[COND][BYTE];
@@ -159,7 +161,15 @@ void main(int argc, PSTR argv[])
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
 	initializeTable();
 	prefixArrayInit();
-	//printf("start\n");
+	_asm{
+			lfence
+		}
+	tickCount = getticks();
+	
+		disasm(g_va, &conditionTable, COUNT);
+	tickCount = (getticks() - tickCount);	
+	printf("%d \n",tickCount);
+	/*
 	for(ii = 0; ii < TRYCOUNT; ++ii) {
 		initializeFSM(va);
 		
@@ -184,5 +194,5 @@ void main(int argc, PSTR argv[])
 	for(ii = 0; ii < TRYCOUNT; ++ii) 
 		printf("%d \n",resInstr[TRYCOUNT]/COUNT);
 	
-	
+	*/
 }
