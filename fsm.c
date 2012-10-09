@@ -15,7 +15,7 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 1000
+#define COUNT 100
 #define TRYCOUNT 1
 #define COND 37
 #define BYTE 256
@@ -31,24 +31,6 @@ PVOID pa;
 UINT8 conditionTable[COND*BYTE];
 UINT8 prefixArray[PREFIXCOUNT];
 char *qwer;
-
-UINT8 getByte() {
-	UINT8 res  = CURRENT_BYTE;
-	//все регистры при выходе из функции сбросятся в состояние, в котором они были до начала функции
-	//как убрать два mov с глобальной переменной - я пока не знаю
-	//если их убрать - скорость должна заметно повысится
-	/*
-	_asm{
-		mov esi, g_va
-		lodsb
-		mov res, al
-		mov g_va, esi
-	}
-	*/
-	//так работает быстрее, чем с ассемблерной вставкой выше
-	++((PUINT8) g_va);
-	return res;
-}
 
 void initializeFSM(PVOID va) {
 	g_va = va;
@@ -87,6 +69,7 @@ void main(int argc, PSTR argv[])
 	}
 	va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
+	initializeFSM(va);
 	initializeTable();
 	_asm{
 		lea eax, conditionTable
@@ -94,7 +77,7 @@ void main(int argc, PSTR argv[])
 		lfence
 		}
 	tickCount = disasm(g_va, ct, COUNT);	
-	printf("in c: %d \n",tickCount);
+	//printf("in c: %d \n",tickCount/COUNT);
 	//printf("%x \n",conditionTable);
 	//printf("%x \n",&conditionTable);
 	//printf("%x \n",ct);
@@ -129,9 +112,7 @@ void main(int argc, PSTR argv[])
 	UINT state = 0;
 	int next = -1;
 	UINT8 b;
-	
 	getPrefix(instr);
-	
 	for(;0 != next;) {
 		if(0 < next) 
 			state = (UINT) next;
@@ -141,8 +122,7 @@ void main(int argc, PSTR argv[])
 	instr->state = state;
 }
 	*/
-	/*
-	
+	/*	
 void prefixArrayInit() {
 	prefixArray[0] = 0xf0;
 	prefixArray[1] = 0x65;
@@ -176,5 +156,12 @@ void prefixArrayInit() {
 	q:	mov g_va, esi
 	}
 	}
+	*/
+	/*	
+UINT8 getByte() {
+	UINT8 res  = CURRENT_BYTE;
+	++((PUINT8) g_va);
+	return res;
+}
 	*/
 }
