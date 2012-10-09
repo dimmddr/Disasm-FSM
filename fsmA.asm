@@ -16,7 +16,7 @@
 	ifmt	db "%0lu", 0
 	outp	db BSIZE dup(?)
 	prefix 	dw PrC dup(?)
-	state	db 10000 dup(?)
+	state	db 100000 dup(?)
 	
 public disasm 
 	.code
@@ -40,11 +40,9 @@ public disasm
 				pop ecx
 				push edi
 					lea edi, state
-					mov [edi + ecx], edx
+					;mov [edi + ecx], edx
 				pop edi
 			loop qwer
-			
-			
 			rdtsc
 			mov ebx, eax
 			mov ecx, edx
@@ -54,6 +52,14 @@ public disasm
 		sub ecx, edx
 		mov edx, ebx
 	pop ecx;это если надо будет распечатывать результат
+	mov eax, ebx
+	push eax
+		call printInstruction
+	pop eax
+	pop ebp
+	ret
+disasm endp
+printInstruction proc
 	invoke GetStdHandle, -11
 	lea edi, state
 	print:
@@ -65,14 +71,9 @@ public disasm
 			invoke	WriteConsoleA, eax, addr outp, 10, 0, 0
 		pop ecx
 	loop print
-	;invoke	wsprintf, addr outp, addr ifmt, ebx
-	;invoke GetStdHandle, -11
-	;invoke	WriteConsoleA, eax, addr outp, 10, 0, 0	
-	mov eax, ebx
-	pop ebp
 	ret
-	disasm endp
-	;адрес следующего байта хранится в регистре edi
+printInstruction endp
+;адрес следующего байта хранится в регистре edi
 ;адрес таблицы переходов для опкодов - в esi
 getInstruction proc
 	push ebx
@@ -106,15 +107,14 @@ getPrefix proc
 		mov eax, 0
 		lodsb
 		mov ecx, 11 ;количество префиксов
-		;REPNE SCAS m16 Find AX, starting at ES:[(E)DI]
-		;Compare AL with byte at ES:(E)DI or RDI then set status flags
-		repe scasb
-		;repne scasb
-		;jnz q
-		jz prefixStart
-		;set bit
-		;jmp prefixStart
-	q:	ret
+		repne scasb
+		test ecx, ecx
+		jz q
+		;запомнить результат
+		jmp prefixStart
+	q:	
+		mov edi, ebx
+		ret
 getPrefix endp
 
 prefixInit proc

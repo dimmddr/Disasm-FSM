@@ -15,7 +15,7 @@ typedef unsigned __int64 ticks;
   
 #define CURRENT_BYTE (*((PUINT8) g_va))  
 
-#define COUNT 100
+#define COUNT 1000
 #define TRYCOUNT 1
 #define COND 37
 #define BYTE 256
@@ -27,14 +27,8 @@ INT _stdcall disasm(PVOID, PVOID, UINT);
 //global variables
 PVOID g_va;
 PVOID ct;
-PVOID pa;
 UINT8 conditionTable[COND*BYTE];
 UINT8 prefixArray[PREFIXCOUNT];
-char *qwer;
-
-void initializeFSM(PVOID va) {
-	g_va = va;
-}
 
 void initializeTable() {
 	UINT i, ii, state ;
@@ -46,20 +40,9 @@ void initializeTable() {
 			}
 	fclose(in);
 }
-
-
-
-void main(int argc, PSTR argv[])
-{
-	UINT resInstr[TRYCOUNT];
+void initializeFSM() {
 	LOADED_IMAGE image;
 	PSTR imageFilename;
-	int i;
-	int ii;
-	PVOID va;
-	unsigned __int64 tickCount;
-	INSTRUCTION instr[COUNT];
-	
 	//imageFilename = argv[1];
 	imageFilename = "test_prefix.exe";
 	
@@ -67,20 +50,26 @@ void main(int argc, PSTR argv[])
 		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
 		return;
 	}
-	va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
+	g_va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
-	initializeFSM(va);
 	initializeTable();
+}
+
+void main(int argc, PSTR argv[])
+{
+	UINT resInstr[TRYCOUNT];
+	unsigned __int64 tickCount;
+	INSTRUCTION instr[COUNT];
+	
+	
+	initializeFSM();
 	_asm{
 		lea eax, conditionTable
 		mov ct, eax
 		lfence
 		}
 	tickCount = disasm(g_va, ct, COUNT);	
-	//printf("in c: %d \n",tickCount/COUNT);
-	//printf("%x \n",conditionTable);
-	//printf("%x \n",&conditionTable);
-	//printf("%x \n",ct);
+	printf("Time: %d \n",tickCount/COUNT);
 	/*
 	for(ii = 0; ii < TRYCOUNT; ++ii) {
 		initializeFSM(va);
