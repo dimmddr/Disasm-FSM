@@ -5,7 +5,7 @@
 	option	casemap:none
 	
 	BSIZE equ 15
-	PrC equ 11 ;количество префиксов
+	PrC equ 11 ;prefix count
 	
 	include user32.inc
 	includelib user32.lib
@@ -21,7 +21,7 @@
 public disasm 
 	.code
 	disasm proc byteAddress, tableAddress, count
-	;Пока что передаем в функцию три параметра: адрес первого байта, адрес таблицы состояний, количество итераций
+	;3 parameters: first byte address, state table address, iteration count
 	push ebp
 
 	mov esi, byteAddress
@@ -29,7 +29,8 @@ public disasm
 	mov ecx, count
 	call prefixInit
 	lea edi, prefix
-	push ecx ;сохраняем количество итераций, для следующего цикла
+	push ecx ;save count of iteration for next cycle usage
+	;сохраняем количество итераций, для следующего цикла
 		lfence
 		rdtsc
 		push eax
@@ -51,7 +52,8 @@ public disasm
 		sub ebx, eax
 		sub ecx, edx
 		mov edx, ebx
-	pop ecx;это если надо будет распечатывать результат
+	pop ecx;use this if print result needed
+	;это если надо будет распечатывать результат
 	mov eax, ebx
 	push eax
 		call printInstruction
@@ -73,6 +75,8 @@ printInstruction proc
 	loop print
 	ret
 printInstruction endp
+;next byte address in edi
+;state table address in esi
 ;адрес следующего байта хранится в регистре edi
 ;адрес таблицы переходов для опкодов - в esi
 getInstruction proc
@@ -81,20 +85,26 @@ getInstruction proc
 	pop ecx
 	mov ebx, 0
 	instructionStart:
-		mov edx, ebx ;сохраняем текущее состояние
-		shl ebx, 8 ;умножаем на ширину таблицы
-		;shl ebx, 9 ;умножаем на ширину таблицы и еще на 2, потому что ячейки в таблице 2 байта
-		;shl eax, 1 ; по аналогичной причине умножаем входной байт на 2
-		add eax, ebx ;получаем смещение, по которому хранится следующее состояние
+		mov edx, ebx ;keep currnet state 
+		;сохраняем текущее состояние
+		shl ebx, 8 ;multiply by width of the state table
+		;умножаем на ширину таблицы
+		;shl ebx, 9 ;9 - if size of the cell in the state table will be 2 byte
+		;shl eax, 1 ; for some reasons multiply next byte by 2
+		add eax, ebx ;we receive shift on which the following condition is stored
+		;получаем смещение, по которому хранится следующее состояние
 		mov ebx, 0
-		mov bl, [ecx + eax] ;получаем следующее состояние
-		test ebx, ebx ;сравниваем его с 0
+		mov bl, [ecx + eax] ;take the next state
+		;получаем следующее состояние
+		test ebx, ebx ;compare state and 0
+		;сравниваем его с 0
 		jz exit
 		mov eax, 0
 		lodsb
 		jmp instructionStart
 	exit:
 	mov ebx, ecx
+	;end of work. KO
 	;заканчиваем работу функции
 	ret
 getInstruction endp
@@ -106,11 +116,10 @@ getPrefix proc
 		mov edi, ebx
 		mov eax, 0
 		lodsb
-		mov ecx, 11 ;количество префиксов
+		mov ecx, PrC
 		repne scasb
 		test ecx, ecx
 		jz q
-		;запомнить результат
 		jmp prefixStart
 	q:	
 		mov edi, ebx
