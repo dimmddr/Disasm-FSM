@@ -1,1 +1,2 @@
-opcode:modRM:1b: |modRM:sib: :32
+opcode:oneByte
+opcode:0f|opcode:twoByte

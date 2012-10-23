@@ -5,7 +5,7 @@
 	option	casemap:none
 	
 	BSIZE equ 15
-	PrC equ 11 ;prefix count
+	PrC equ 13 ;prefix count
 	
 	include user32.inc
 	includelib user32.lib
@@ -87,10 +87,10 @@ getInstruction proc
 	instructionStart:
 		mov edx, ebx ;keep currnet state 
 		;сохраняем текущее состояние
-		shl ebx, 8 ;multiply by width of the state table
+		;shl ebx, 8 ;multiply by width of the state table
 		;умножаем на ширину таблицы
-		;shl ebx, 9 ;9 - if size of the cell in the state table will be 2 byte
-		;shl eax, 1 ; for some reasons multiply next byte by 2
+		shl ebx, 9 ;9 - if size of the cell in the state table will be 2 byte
+		shl eax, 1 ; for some reasons multiply next byte by 2
 		add eax, ebx ;we receive shift on which the following condition is stored
 		;получаем смещение, по которому хранится следующее состояние
 		mov ebx, 0
@@ -150,6 +150,10 @@ prefixInit proc
 	mov [prefix + ecx],026h
 	inc ecx
 	mov [prefix + ecx],064h
+	inc ecx
+	mov [prefix + ecx],0f2h
+	inc ecx
+	mov [prefix + ecx],0f3h
 	pop ecx
 	ret
 prefixInit endp

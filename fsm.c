@@ -17,10 +17,10 @@ typedef unsigned __int64 ticks;
 
 #define COUNT 1000
 #define TRYCOUNT 1
-#define COND 37
+#define COND 458
 #define BYTE 256
 #define STARTLINE 16
-#define PREFIXCOUNT 11
+#define PREFIXCOUNT 13
 
 INT _stdcall disasm(PVOID, PVOID, UINT);
 
@@ -34,7 +34,7 @@ void initializeTable() {
 	UINT i, ii, state ;
 	int f;
 	FILE *in, *fopen();
-	in = fopen("result_table.txt", "r");
+	in = fopen("state_table.txt", "r");
 	for(i = 0; i < COND*BYTE; ++i){
 			fscanf(in, "%u", &conditionTable[i]);
 			}
