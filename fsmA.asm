@@ -15,20 +15,20 @@
 	.data
 	ifmt	db "%0lu", 0
 	outp	db BSIZE dup(?)
-	prefix 	dw PrC dup(?)
+	prefix 	dw 1024 dup(?)
+	;fsm for prefix
 	state	db 100000 dup(?)
 	
 public disasm 
 	.code
-	disasm proc byteAddress, tableAddress, count
-	;3 parameters: first byte address, state table address, iteration count
+	disasm proc byteAddress, tableAddress, prefixTableAddress, count
+	;4 parameters: first byte address, state table address, prefix state table iteration count
 	push ebp
 
 	mov esi, byteAddress
 	mov ebx, tableAddress
+	mov edi, prefixTableAddress
 	mov ecx, count
-	call prefixInit
-	lea edi, prefix
 	push ecx ;save count of iteration for next cycle usage
 	;сохраняем количество итераций, для следующего цикла
 		lfence
@@ -39,10 +39,6 @@ public disasm
 				push ecx
 					call getInstruction
 				pop ecx
-				push edi
-					lea edi, state
-					;mov [edi + ecx], edx
-				pop edi
 			loop qwer
 			rdtsc
 			mov ebx, eax
@@ -55,26 +51,10 @@ public disasm
 	pop ecx;use this if print result needed
 	;это если надо будет распечатывать результат
 	mov eax, ebx
-	push eax
-		call printInstruction
-	pop eax
 	pop ebp
 	ret
 disasm endp
-printInstruction proc
-	invoke GetStdHandle, -11
-	lea edi, state
-	print:
-		mov ebx, [edi + ecx]
-		push ecx
-			push eax
-				invoke	wsprintf, addr outp, addr ifmt, ebx
-			pop eax
-			invoke	WriteConsoleA, eax, addr outp, 10, 0, 0
-		pop ecx
-	loop print
-	ret
-printInstruction endp
+
 ;next byte address in edi
 ;state table address in esi
 ;адрес следующего байта хранится в регистре edi
@@ -85,7 +65,7 @@ getInstruction proc
 	pop ecx
 	mov ebx, 0
 	instructionStart:
-		mov edx, ebx ;keep currnet state 
+		mov edx, ebx ;keep current state 
 		;сохраняем текущее состояние
 		;shl ebx, 8 ;multiply by width of the state table
 		;умножаем на ширину таблицы
@@ -94,7 +74,7 @@ getInstruction proc
 		add eax, ebx ;we receive shift on which the following condition is stored
 		;получаем смещение, по которому хранится следующее состояние
 		mov ebx, 0
-		mov bl, [ecx + eax] ;take the next state
+		mov bx, [ecx + eax] ;take the next state
 		;получаем следующее состояние
 		test ebx, ebx ;compare state and 0
 		;сравниваем его с 0
@@ -110,50 +90,29 @@ getInstruction proc
 getInstruction endp
 
 getPrefix proc
-		cld
-		mov ebx, edi
-	prefixStart:	
-		mov edi, ebx
+	mov ebx, 0
+	prefixStart:
+		mov edx, ebx
 		mov eax, 0
 		lodsb
-		mov ecx, PrC
-		repne scasb
-		test ecx, ecx
+		shl ebx, 8 ;only one byte for cell in prefix state table
+		mov ecx, eax
+		add ecx, ebx
+		mov ebx, 0
+		mov bl, [edi + ecx]
+		test ebx, ebx ;compare state and 0
 		jz q
+		
 		jmp prefixStart
 	q:	
-		mov edi, ebx
+		mov edx, ebx
 		ret
 getPrefix endp
 
 prefixInit proc
 	push ecx
-	mov ecx, 0
-	mov [prefix + ecx],0f0h
-	inc ecx
-	mov [prefix + ecx],065h
-	inc ecx
-	mov [prefix + ecx],02fh
-	inc ecx
-	mov [prefix + ecx],03fh
-	inc ecx
-	mov [prefix + ecx],066h
-	inc ecx
-	mov [prefix + ecx],067h
-	inc ecx
-	mov [prefix + ecx],02eh
-	inc ecx
-	mov [prefix + ecx],03eh
-	inc ecx
-	mov [prefix + ecx],036h
-	inc ecx
-	mov [prefix + ecx],026h
-	inc ecx
-	mov [prefix + ecx],064h
-	inc ecx
-	mov [prefix + ecx],0f2h
-	inc ecx
-	mov [prefix + ecx],0f3h
+	push eax
+	pop eax
 	pop ecx
 	ret
 prefixInit endp

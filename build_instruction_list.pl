@@ -8,7 +8,7 @@ my $fileName = shift or die "Give me the file!";
 #print $fileName;
 open my $in, "<", $fileName or die "$!";
 open my $codes, "<", $codesList or die "$!";
-open my $output, ">instruction_list.txt" or die "wtf";
+open my $output, ">", "instruction_list.txt" or die "wtf";
 #может не стоит читать все?
 my %class;
 while (<$codes>) {

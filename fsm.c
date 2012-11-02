@@ -21,14 +21,16 @@ typedef unsigned __int64 ticks;
 #define BYTE 256
 #define STARTLINE 16
 #define PREFIXCOUNT 13
+#define PREFIXSTATE 5
 
-INT _stdcall disasm(PVOID, PVOID, UINT);
+INT _stdcall disasm(PVOID, PVOID, PVOID, UINT);
 
 //global variables
 PVOID g_va;
 PVOID ct;
-UINT8 conditionTable[COND*BYTE];
+UINT16 conditionTable[COND*BYTE];
 UINT8 prefixArray[PREFIXCOUNT];
+UINT8 prefixStateTable[PREFIXSTATE*BYTE];
 
 void initializeTable() {
 	UINT i, ii, state ;
@@ -40,6 +42,84 @@ void initializeTable() {
 			}
 	fclose(in);
 }
+
+void initializePrefixFSMTable() {
+	UINT i,ii;
+	for(i = 0; i < PREFIXSTATE*BYTE; ++i)
+		prefixStateTable[i] = 0;
+		
+	prefixStateTable[0x66] = 2;
+	prefixStateTable[0x67] = 3;
+	prefixStateTable[0x2f] = 1;
+	prefixStateTable[0x3f] = 1;
+	prefixStateTable[0x2e] = 1;
+	prefixStateTable[0x3e] = 1;
+	prefixStateTable[0x26] = 1;
+	prefixStateTable[0x36] = 1;
+	prefixStateTable[0x64] = 1;
+	prefixStateTable[0x65] = 1;
+	prefixStateTable[0xf0] = 1;
+	prefixStateTable[0xf2] = 1;
+	prefixStateTable[0xf3] = 1;
+	
+	prefixStateTable[0x66 + 255] = 2;
+	prefixStateTable[0x67 + 255] = 3;
+	prefixStateTable[0x2f + 255] = 1;
+	prefixStateTable[0x3f + 255] = 1;
+	prefixStateTable[0x2e + 255] = 1;
+	prefixStateTable[0x3e + 255] = 1;
+	prefixStateTable[0x26 + 255] = 1;
+	prefixStateTable[0x36 + 255] = 1;
+	prefixStateTable[0x64 + 255] = 1;
+	prefixStateTable[0x65 + 255] = 1;
+	prefixStateTable[0xf0 + 255] = 1;
+	prefixStateTable[0xf2 + 255] = 1;
+	prefixStateTable[0xf3 + 255] = 1;
+	
+	prefixStateTable[0x66 + 511] = 2;
+	prefixStateTable[0x67 + 511] = 3;
+	prefixStateTable[0x2f + 511] = 2;
+	prefixStateTable[0x3f + 511] = 2;
+	prefixStateTable[0x2e + 511] = 2;
+	prefixStateTable[0x3e + 511] = 2;
+	prefixStateTable[0x26 + 511] = 2;
+	prefixStateTable[0x36 + 511] = 2;
+	prefixStateTable[0x64 + 511] = 2;
+	prefixStateTable[0x65 + 511] = 2;
+	prefixStateTable[0xf0 + 511] = 2;
+	prefixStateTable[0xf2 + 511] = 2;
+	prefixStateTable[0xf3 + 511] = 2;
+	
+	prefixStateTable[0x66 + 767] = 4;
+	prefixStateTable[0x67 + 767] = 3;
+	prefixStateTable[0x2f + 767] = 3;
+	prefixStateTable[0x3f + 767] = 3;
+	prefixStateTable[0x2e + 767] = 3;
+	prefixStateTable[0x3e + 767] = 3;
+	prefixStateTable[0x26 + 767] = 3;
+	prefixStateTable[0x36 + 767] = 3;
+	prefixStateTable[0x64 + 767] = 3;
+	prefixStateTable[0x65 + 767] = 3;
+	prefixStateTable[0xf0 + 767] = 3;
+	prefixStateTable[0xf2 + 767] = 3;
+	prefixStateTable[0xf3 + 767] = 3;
+	
+	prefixStateTable[0x66 + 1023] = 4;
+	prefixStateTable[0x67 + 1023] = 4;
+	prefixStateTable[0x2f + 1023] = 4;
+	prefixStateTable[0x3f + 1023] = 4;
+	prefixStateTable[0x2e + 1023] = 4;
+	prefixStateTable[0x3e + 1023] = 4;
+	prefixStateTable[0x26 + 1023] = 4;
+	prefixStateTable[0x36 + 1023] = 4;
+	prefixStateTable[0x64 + 1023] = 4;
+	prefixStateTable[0x65 + 1023] = 4;
+	prefixStateTable[0xf0 + 1023] = 4;
+	prefixStateTable[0xf2 + 1023] = 4;
+	prefixStateTable[0xf3 + 1023] = 4;
+	
+}
+
 void initializeFSM() {
 	LOADED_IMAGE image;
 	PSTR imageFilename;
@@ -53,6 +133,7 @@ void initializeFSM() {
 	g_va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
 						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
 	initializeTable();
+	initializePrefixFSMTable();
 }
 
 void main(int argc, PSTR argv[])
@@ -68,7 +149,7 @@ void main(int argc, PSTR argv[])
 		mov ct, eax
 		lfence
 		}
-	tickCount = disasm(g_va, ct, COUNT);	
+	tickCount = disasm(g_va, ct, prefixStateTable, COUNT);	
 	printf("Time: %d \n",tickCount/COUNT);
 	/*
 	for(ii = 0; ii < TRYCOUNT; ++ii) {
