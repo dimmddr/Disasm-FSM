@@ -17,11 +17,11 @@ typedef unsigned __int64 ticks;
 
 #define COUNT 1000
 #define TRYCOUNT 1
-#define COND 458
+#define COND 796
 #define BYTE 256
 #define STARTLINE 16
 #define PREFIXCOUNT 13
-#define PREFIXSTATE 5
+#define PREFIXSTATE 17
 
 INT _stdcall disasm(PVOID, PVOID, PVOID, UINT);
 
@@ -38,8 +38,8 @@ void initializeTable() {
 	FILE *in, *fopen();
 	in = fopen("state_table.txt", "r");
 	for(i = 0; i < COND*BYTE; ++i){
-			fscanf(in, "%u", &conditionTable[i]);
-			}
+		fscanf(in, "%u", &conditionTable[i]);
+	}
 	fclose(in);
 }
 
@@ -48,82 +48,250 @@ void initializePrefixFSMTable() {
 	for(i = 0; i < PREFIXSTATE*BYTE; ++i)
 		prefixStateTable[i] = 0;
 		
-	prefixStateTable[0x66] = 2;
-	prefixStateTable[0x67] = 3;
-	prefixStateTable[0x2f] = 1;
-	prefixStateTable[0x3f] = 1;
-	prefixStateTable[0x2e] = 1;
-	prefixStateTable[0x3e] = 1;
-	prefixStateTable[0x26] = 1;
-	prefixStateTable[0x36] = 1;
-	prefixStateTable[0x64] = 1;
-	prefixStateTable[0x65] = 1;
-	prefixStateTable[0xf0] = 1;
-	prefixStateTable[0xf2] = 1;
-	prefixStateTable[0xf3] = 1;
+	prefixStateTable[0x66] = 1;
+	prefixStateTable[0x67] = 15;
+	prefixStateTable[0x2f] = 14;
+	prefixStateTable[0x3f] = 14;
+	prefixStateTable[0x2e] = 14;
+	prefixStateTable[0x3e] = 14;
+	prefixStateTable[0x26] = 14;
+	prefixStateTable[0x36] = 14;
+	prefixStateTable[0x64] = 14;
+	prefixStateTable[0x65] = 14;
+	prefixStateTable[0xf0] = 14;
+	prefixStateTable[0xf2] = 5;
+	prefixStateTable[0xf3] = 9;
 	
-	prefixStateTable[0x66 + 255] = 2;
-	prefixStateTable[0x67 + 255] = 3;
-	prefixStateTable[0x2f + 255] = 1;
-	prefixStateTable[0x3f + 255] = 1;
-	prefixStateTable[0x2e + 255] = 1;
-	prefixStateTable[0x3e + 255] = 1;
-	prefixStateTable[0x26 + 255] = 1;
-	prefixStateTable[0x36 + 255] = 1;
-	prefixStateTable[0x64 + 255] = 1;
-	prefixStateTable[0x65 + 255] = 1;
-	prefixStateTable[0xf0 + 255] = 1;
-	prefixStateTable[0xf2 + 255] = 1;
-	prefixStateTable[0xf3 + 255] = 1;
+	prefixStateTable[0x66 + (256 * 1 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 1 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x3f + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x2e + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x3e + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x26 + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x36 + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x64 + (256 * 1 - 1)] = 16;
+	prefixStateTable[0x65 + (256 * 1 - 1)] = 16;
+	prefixStateTable[0xf0 + (256 * 1 - 1)] = 16;
+	prefixStateTable[0xf2 + (256 * 1 - 1)] = 6;
+	prefixStateTable[0xf3 + (256 * 1 - 1)] = 10;
 	
-	prefixStateTable[0x66 + 511] = 2;
-	prefixStateTable[0x67 + 511] = 3;
-	prefixStateTable[0x2f + 511] = 2;
-	prefixStateTable[0x3f + 511] = 2;
-	prefixStateTable[0x2e + 511] = 2;
-	prefixStateTable[0x3e + 511] = 2;
-	prefixStateTable[0x26 + 511] = 2;
-	prefixStateTable[0x36 + 511] = 2;
-	prefixStateTable[0x64 + 511] = 2;
-	prefixStateTable[0x65 + 511] = 2;
-	prefixStateTable[0xf0 + 511] = 2;
-	prefixStateTable[0xf2 + 511] = 2;
-	prefixStateTable[0xf3 + 511] = 2;
+	prefixStateTable[0x66 + (256 * 2 - 1)] = 4;
+	prefixStateTable[0x67 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x3f + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x2e + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x3e + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x26 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x36 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x64 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0x65 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0xf0 + (256 * 2 - 1)] = 13;
+	prefixStateTable[0xf2 + (256 * 2 - 1)] = 7;
+	prefixStateTable[0xf3 + (256 * 2 - 1)] = 11;
 	
-	prefixStateTable[0x66 + 767] = 4;
-	prefixStateTable[0x67 + 767] = 3;
-	prefixStateTable[0x2f + 767] = 3;
-	prefixStateTable[0x3f + 767] = 3;
-	prefixStateTable[0x2e + 767] = 3;
-	prefixStateTable[0x3e + 767] = 3;
-	prefixStateTable[0x26 + 767] = 3;
-	prefixStateTable[0x36 + 767] = 3;
-	prefixStateTable[0x64 + 767] = 3;
-	prefixStateTable[0x65 + 767] = 3;
-	prefixStateTable[0xf0 + 767] = 3;
-	prefixStateTable[0xf2 + 767] = 3;
-	prefixStateTable[0xf3 + 767] = 3;
+	prefixStateTable[0x66 + (256 * 3 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 3 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x3f + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x2e + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x3e + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x26 + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x36 + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x64 + (256 * 3 - 1)] = 16;
+	prefixStateTable[0x65 + (256 * 3 - 1)] = 16;
+	prefixStateTable[0xf0 + (256 * 3 - 1)] = 16;
+	prefixStateTable[0xf2 + (256 * 3 - 1)] = 6;
+	prefixStateTable[0xf3 + (256 * 3 - 1)] = 10;
 	
-	prefixStateTable[0x66 + 1023] = 4;
-	prefixStateTable[0x67 + 1023] = 4;
-	prefixStateTable[0x2f + 1023] = 4;
-	prefixStateTable[0x3f + 1023] = 4;
-	prefixStateTable[0x2e + 1023] = 4;
-	prefixStateTable[0x3e + 1023] = 4;
-	prefixStateTable[0x26 + 1023] = 4;
-	prefixStateTable[0x36 + 1023] = 4;
-	prefixStateTable[0x64 + 1023] = 4;
-	prefixStateTable[0x65 + 1023] = 4;
-	prefixStateTable[0xf0 + 1023] = 4;
-	prefixStateTable[0xf2 + 1023] = 4;
-	prefixStateTable[0xf3 + 1023] = 4;
+	prefixStateTable[0x66 + (256 * 4 - 1)] = 4;
+	prefixStateTable[0x67 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x3f + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x2e + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x3e + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x26 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x36 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x64 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0x65 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0xf0 + (256 * 4 - 1)] = 13;
+	prefixStateTable[0xf2 + (256 * 4 - 1)] = 7;
+	prefixStateTable[0xf3 + (256 * 4 - 1)] = 11;
 	
+	prefixStateTable[0x66 + (256 * 5 - 1)] = 1;
+	prefixStateTable[0x67 + (256 * 5 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x3f + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x2e + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x3e + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x26 + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x36 + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x64 + (256 * 5 - 1)] = 14;
+	prefixStateTable[0x65 + (256 * 5 - 1)] = 14;
+	prefixStateTable[0xf0 + (256 * 5 - 1)] = 14;
+	prefixStateTable[0xf2 + (256 * 5 - 1)] = 5;
+	prefixStateTable[0xf3 + (256 * 5 - 1)] = 9;
+	
+	prefixStateTable[0x66 + (256 * 6 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 6 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x3f + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x2e + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x3e + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x26 + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x36 + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x64 + (256 * 6 - 1)] = 16;
+	prefixStateTable[0x65 + (256 * 6 - 1)] = 16;
+	prefixStateTable[0xf0 + (256 * 6 - 1)] = 16;
+	prefixStateTable[0xf2 + (256 * 6 - 1)] = 6;
+	prefixStateTable[0xf3 + (256 * 6 - 1)] = 10;
+	
+	prefixStateTable[0x66 + (256 * 7 - 1)] = 4;
+	prefixStateTable[0x67 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x3f + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x2e + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x3e + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x26 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x36 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x64 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0x65 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0xf0 + (256 * 7 - 1)] = 13;
+	prefixStateTable[0xf2 + (256 * 7 - 1)] = 7;
+	prefixStateTable[0xf3 + (256 * 7 - 1)] = 11;
+	
+	prefixStateTable[0x66 + (256 * 8 - 1)] = 2;
+	prefixStateTable[0x67 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x3f + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x2e + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x3e + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x26 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x36 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x64 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0x65 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0xf0 + (256 * 8 - 1)] = 15;
+	prefixStateTable[0xf2 + (256 * 8 - 1)] = 8;
+	prefixStateTable[0xf3 + (256 * 8 - 1)] = 12;
+	
+	prefixStateTable[0x66 + (256 * 9 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 9 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x3f + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x2e + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x3e + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x26 + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x36 + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x64 + (256 * 9 - 1)] = 14;
+	prefixStateTable[0x65 + (256 * 9 - 1)] = 14;
+	prefixStateTable[0xf0 + (256 * 9 - 1)] = 14;
+	prefixStateTable[0xf2 + (256 * 9 - 1)] = 5;
+	prefixStateTable[0xf3 + (256 * 9 - 1)] = 9;
+	
+	prefixStateTable[0x66 + (256 * 10 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 10 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x3f + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x2e + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x3e + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x26 + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x36 + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x64 + (256 * 10 - 1)] = 16;
+	prefixStateTable[0x65 + (256 * 10 - 1)] = 16;
+	prefixStateTable[0xf0 + (256 * 10 - 1)] = 16;
+	prefixStateTable[0xf2 + (256 * 10 - 1)] = 6;
+	prefixStateTable[0xf3 + (256 * 10 - 1)] = 10;
+	
+	prefixStateTable[0x66 + (256 * 11 - 1)] = 4;
+	prefixStateTable[0x67 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x3f + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x2e + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x3e + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x26 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x36 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x64 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0x65 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0xf0 + (256 * 11 - 1)] = 13;
+	prefixStateTable[0xf2 + (256 * 11 - 1)] = 7;
+	prefixStateTable[0xf3 + (256 * 11 - 1)] = 11;
+	
+	prefixStateTable[0x66 + (256 * 12 - 1)] = 2;
+	prefixStateTable[0x67 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x3f + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x2e + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x3e + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x26 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x36 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x64 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0x65 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0xf0 + (256 * 12 - 1)] = 15;
+	prefixStateTable[0xf2 + (256 * 12 - 1)] = 8;
+	prefixStateTable[0xf3 + (256 * 12 - 1)] = 12;
+	
+	prefixStateTable[0x66 + (256 * 13 - 1)] = 4;
+	prefixStateTable[0x67 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x3f + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x2e + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x3e + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x26 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x36 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x64 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0x65 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0xf0 + (256 * 13 - 1)] = 13;
+	prefixStateTable[0xf2 + (256 * 13 - 1)] = 7;
+	prefixStateTable[0xf3 + (256 * 13 - 1)] = 11;
+	
+	prefixStateTable[0x66 + (256 * 14 - 1)] = 1;
+	prefixStateTable[0x67 + (256 * 14 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x3f + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x2e + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x3e + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x26 + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x36 + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x64 + (256 * 14 - 1)] = 14;
+	prefixStateTable[0x65 + (256 * 14 - 1)] = 14;
+	prefixStateTable[0xf0 + (256 * 14 - 1)] = 14;
+	prefixStateTable[0xf2 + (256 * 14 - 1)] = 5;
+	prefixStateTable[0xf3 + (256 * 14 - 1)] = 9;
+	
+	prefixStateTable[0x66 + (256 * 15 - 1)] = 2;
+	prefixStateTable[0x67 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x2f + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x3f + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x2e + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x3e + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x26 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x36 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x64 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0x65 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0xf0 + (256 * 15 - 1)] = 15;
+	prefixStateTable[0xf2 + (256 * 15 - 1)] = 8;
+	prefixStateTable[0xf3 + (256 * 15 - 1)] = 12;
+	
+	prefixStateTable[0x66 + (256 * 16 - 1)] = 3;
+	prefixStateTable[0x67 + (256 * 16 - 1)] = 13;
+	prefixStateTable[0x2f + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x3f + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x2e + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x3e + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x26 + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x36 + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x64 + (256 * 16 - 1)] = 16;
+	prefixStateTable[0x65 + (256 * 16 - 1)] = 16;
+	prefixStateTable[0xf0 + (256 * 16 - 1)] = 16;
+	prefixStateTable[0xf2 + (256 * 16 - 1)] = 6;
+	prefixStateTable[0xf3 + (256 * 16 - 1)] = 10;
 }
 
 void initializeFSM() {
 	LOADED_IMAGE image;
 	PSTR imageFilename;
 	//imageFilename = argv[1];
+	//imageFilename = "test_short_instruction.exe";
 	imageFilename = "test_prefix.exe";
 	
 	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {

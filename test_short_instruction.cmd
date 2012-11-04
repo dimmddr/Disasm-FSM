@@ -15,7 +15,7 @@ main proc
 commands MACRO
 		rept COUNT
 			db 00fh, 0e3h
-			db 05Ch
+			db 00fh, 0b2h
 			db 00fh, 0a0h
 			endm
 		endm
