@@ -1,4 +1,4 @@
-#include <windows.h>
+п»ї#include <windows.h>
 #include <intrin.h>
 #include <stdio.h>
 #include "fsm.h"
@@ -382,7 +382,7 @@ void prefixArrayInit() {
 		cld
 	start:	
 		lea edi, prefixArray
-		mov ecx, 11 ;количество префиксов
+		mov ecx, 11 ;РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРµС„РёРєСЃРѕРІ
 		;REPNE SCAS m16 Find AX, starting at ES:[(E)DI]
 		;Compare AL with byte at ES:(E)DI or RDI then set status flags
 		repe scasb

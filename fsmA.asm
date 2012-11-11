@@ -1,4 +1,4 @@
-	.686
+п»ї	.686
 	.MMX
 	.XMM
 	.model	flat,stdcall
@@ -30,7 +30,7 @@ public disasm
 	mov edi, prefixTableAddress
 	mov ecx, count
 	push ecx ;save count of iteration for next cycle usage
-	;сохраняем количество итераций, для следующего цикла
+	;СЃРѕС…СЂР°РЅСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РёС‚РµСЂР°С†РёР№, РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ С†РёРєР»Р°
 		lfence
 		rdtsc
 		cld
@@ -50,7 +50,7 @@ public disasm
 		sub ecx, edx
 		mov edx, ebx
 	pop ecx;use this if print result needed
-	;это если надо будет распечатывать результат
+	;СЌС‚Рѕ РµСЃР»Рё РЅР°РґРѕ Р±СѓРґРµС‚ СЂР°СЃРїРµС‡Р°С‚С‹РІР°С‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚
 	mov eax, ebx
 	pop ebp
 	ret
@@ -81,8 +81,8 @@ getPrefix endp
 
 ;next byte address in edi
 ;state table address in esi
-;адрес следующего байта хранится в регистре edi
-;адрес таблицы переходов для опкодов - в esi
+;Р°РґСЂРµСЃ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р°Р№С‚Р° С…СЂР°РЅРёС‚СЃСЏ РІ СЂРµРіРёСЃС‚СЂРµ edi
+;Р°РґСЂРµСЃ С‚Р°Р±Р»РёС†С‹ РїРµСЂРµС…РѕРґРѕРІ РґР»СЏ РѕРїРєРѕРґРѕРІ - РІ esi
 getInstruction proc
 	push ebx
 		call getPrefix
@@ -91,18 +91,18 @@ getInstruction proc
 		mov ebx, 0
 		instructionStart:
 			mov edx, ebx ;keep current state 
-			;сохраняем текущее состояние
+			;СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
 			;shl ebx, 8 ;multiply by width of the state table
-			;умножаем на ширину таблицы
+			;СѓРјРЅРѕР¶Р°РµРј РЅР° С€РёСЂРёРЅСѓ С‚Р°Р±Р»РёС†С‹
 			shl ebx, 9 ;9 - if size of the cell in the state table will be 2 byte
 			shl eax, 1 ; for some reasons multiply next byte by 2
 			add eax, ebx ;we receive shift on which the following condition is stored
-			;получаем смещение, по которому хранится следующее состояние
+			;РїРѕР»СѓС‡Р°РµРј СЃРјРµС‰РµРЅРёРµ, РїРѕ РєРѕС‚РѕСЂРѕРјСѓ С…СЂР°РЅРёС‚СЃСЏ СЃР»РµРґСѓСЋС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
 			mov ebx, 0
 			mov bx, [ecx + eax] ;take the next state
-			;получаем следующее состояние
+			;РїРѕР»СѓС‡Р°РµРј СЃР»РµРґСѓСЋС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
 			test ebx, ebx ;compare state and 0
-			;сравниваем его с 0
+			;СЃСЂР°РІРЅРёРІР°РµРј РµРіРѕ СЃ 0
 			jz exit
 			mov eax, 0
 			lodsb
@@ -114,7 +114,7 @@ getInstruction proc
 		
 	pop edx ;load prefix state
 	;end of work. KO
-	;заканчиваем работу функции
+	;Р·Р°РєР°РЅС‡РёРІР°РµРј СЂР°Р±РѕС‚Сѓ С„СѓРЅРєС†РёРё
 	ret
 getInstruction endp
 

@@ -1,4 +1,12 @@
 opcode:oneByte
+opcode:oneByte:modRM
+opcode:oneByte:"1/1"
+opcode:oneByte:"2/2"
+opcode:oneByte:"2/4"
+opcode:oneByte:modRM:"2/4"
+opcode:oneByte:modRM:"1/1"
+opcode:oneByte:"3/3"
+opcode:oneByte:"4/6"
 opcode:0f|opcode:twoByte
 prefix:mandatory:66|opcode:0f|opcode:twoByte:mandatoryPrefix_66
 prefix:mandatory:F2|opcode:0f|opcode:twoByte:mandatoryPrefix_f2
