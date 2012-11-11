@@ -1,4 +1,4 @@
-п»ї	.686
+	.686
 	.MMX
 	.XMM
 	.model	flat,stdcall
@@ -16,8 +16,7 @@
 	ifmt	db "%0lu", 0
 	outp	db BSIZE dup(?)
 	prefix 	dw 1024 dup(?)
-	;fsm for prefix
-	state	db 100000 dup(?)
+	opcodeState dd ?
 	
 public disasm 
 	.code
@@ -27,10 +26,11 @@ public disasm
 
 	mov esi, byteAddress
 	mov ebx, tableAddress
+	mov opcodeState, ebx
 	mov edi, prefixTableAddress
 	mov ecx, count
 	push ecx ;save count of iteration for next cycle usage
-	;СЃРѕС…СЂР°РЅСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РёС‚РµСЂР°С†РёР№, РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ С†РёРєР»Р°
+	;сохраняем количество итераций, для следующего цикла
 		lfence
 		rdtsc
 		cld
@@ -50,7 +50,7 @@ public disasm
 		sub ecx, edx
 		mov edx, ebx
 	pop ecx;use this if print result needed
-	;СЌС‚Рѕ РµСЃР»Рё РЅР°РґРѕ Р±СѓРґРµС‚ СЂР°СЃРїРµС‡Р°С‚С‹РІР°С‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚
+	;это если надо будет распечатывать результат
 	mov eax, ebx
 	pop ebp
 	ret
@@ -81,28 +81,27 @@ getPrefix endp
 
 ;next byte address in edi
 ;state table address in esi
-;Р°РґСЂРµСЃ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р°Р№С‚Р° С…СЂР°РЅРёС‚СЃСЏ РІ СЂРµРіРёСЃС‚СЂРµ edi
-;Р°РґСЂРµСЃ С‚Р°Р±Р»РёС†С‹ РїРµСЂРµС…РѕРґРѕРІ РґР»СЏ РѕРїРєРѕРґРѕРІ - РІ esi
-getInstruction proc
-	push ebx
+;адрес следующего байта хранится в регистре edi
+;адрес таблицы переходов для опкодов - в esi
+getInstruction proc 
 		call getPrefix
-	pop ecx
 	push edx ;save prefix state
 		mov ebx, 0
 		instructionStart:
 			mov edx, ebx ;keep current state 
-			;СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
+			;сохраняем текущее состояние
 			;shl ebx, 8 ;multiply by width of the state table
-			;СѓРјРЅРѕР¶Р°РµРј РЅР° С€РёСЂРёРЅСѓ С‚Р°Р±Р»РёС†С‹
+			;умножаем на ширину таблицы
 			shl ebx, 9 ;9 - if size of the cell in the state table will be 2 byte
 			shl eax, 1 ; for some reasons multiply next byte by 2
 			add eax, ebx ;we receive shift on which the following condition is stored
-			;РїРѕР»СѓС‡Р°РµРј СЃРјРµС‰РµРЅРёРµ, РїРѕ РєРѕС‚РѕСЂРѕРјСѓ С…СЂР°РЅРёС‚СЃСЏ СЃР»РµРґСѓСЋС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
+			;получаем смещение, по которому хранится следующее состояние
 			mov ebx, 0
-			mov bx, [ecx + eax] ;take the next state
-			;РїРѕР»СѓС‡Р°РµРј СЃР»РµРґСѓСЋС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
+			add eax, opcodeState
+			mov bx, [eax] ;take the next state
+			;получаем следующее состояние
 			test ebx, ebx ;compare state and 0
-			;СЃСЂР°РІРЅРёРІР°РµРј РµРіРѕ СЃ 0
+			;сравниваем его с 0
 			jz exit
 			mov eax, 0
 			lodsb
@@ -114,7 +113,7 @@ getInstruction proc
 		
 	pop edx ;load prefix state
 	;end of work. KO
-	;Р·Р°РєР°РЅС‡РёРІР°РµРј СЂР°Р±РѕС‚Сѓ С„СѓРЅРєС†РёРё
+	;заканчиваем работу функции
 	ret
 getInstruction endp
 

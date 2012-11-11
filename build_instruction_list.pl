@@ -11,7 +11,7 @@ open my $codes, "<", $codesList or die "$!";
 open my $output, ">", "instruction_list.txt" or die "wtf";
 #Считываем из файла название класса, количество элементов в нем, после чего создаем хеш, 
 #где ключ - название класса, а значение - массив элементов этого класса
-#В общем не рационально считывать все классы, но пока что их не много и используются в шаблоне почти все сразу, поэтому в данном случае раница незаметна
+#В общем случае не рационально считывать все классы, но пока что их не много и используются в шаблоне почти все сразу, поэтому в данном случае раница незаметна
 my %class;
 while (<$codes>) {
 	chomp;
@@ -26,6 +26,8 @@ while (<$codes>) {
 }
 foreach (<$in>) {
 	chomp;
+	my $imm = (/"(\d+ \/ \d+)"/x ) ?  $1 : "0/0";
+	my $modRM = (/modRM/) ?  1 : 0;
 	my @byte = split /\|/, $_;	#разбираем строку шаблона
 	my @result = ();
 	foreach my $bClass (@byte) {	#для каждого элемента в этой строке
@@ -34,14 +36,14 @@ foreach (<$in>) {
 			if(@result) {
 				push @temp, map {
 					$_." $b";
-				} @result;
+				} @result; 
 			} else {
 				push @temp, $b;
 			}
 		}
 		@result = @temp;
 	}
-	map {print $output "$_\n"} @result;
+	map {print $output "$_ modRM=$modRM immediate=$imm\n"} @result;
 }
 close $codes;
 close $in;
