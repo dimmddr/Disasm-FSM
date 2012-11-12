@@ -6,8 +6,8 @@ use diagnostics;
 
 #open my $in, "<", $fileName or die "$!";
 open my $in, "<", "instruction_list.txt" or die "$!";
-open my $outputState, ">", "state_table.txt" or die "wtf";
-open my $outputTail, ">", "modRM_and_immediate_table.txt" or die "wtf";
+open my $outputState, ">", "state_table.dat" or die "wtf";
+open my $outputTail, ">", "modRM_and_immediate_table.dat" or die "wtf";
 
 my $state = 0;
 my $maxstate = 0;
@@ -39,11 +39,20 @@ while (<$in>) {
 	$tailTable[$state][2] = $imm[1];
 	$state = 0;
 }
-
+print $outputState "opcodeState";
+#вложенные foreach, мрак и ужас
+	my $max = 0;
 foreach(@stateTable) {
-	print $outputState "@$_";
-	print $outputState "\n";
+	#print $outputState ;
+	foreach(@$_) {
+		if($_ > $max) {$max = $_;}
+		#$_ *= 512;
+		print $outputState " dw "."$_"." \n";
+		}
+		
+	#print $outputState "\n";
 }
+print $max;
 foreach(@tailTable) {
 	if($_) {
 		print $outputTail "@$_";
