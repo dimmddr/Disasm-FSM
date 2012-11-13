@@ -13,6 +13,8 @@ my $state = 0;
 my $maxstate = 0;
 push my @stateTable, [&getClearState];
 my @tailTable;
+my @prefixStateOperand = (1, 2, 3, 4, 6, 7, 10, 11, 13, 16); #состояния КА префиксов, если в префиксах был operand size префикс
+my @prefixStateAddress = (2, 4, 7, 8, 11, 12, 13, 15); #состояния КА префиксов, если в префиксах был address size префикс
 
 while (<$in>) {
 	chomp;
@@ -33,10 +35,19 @@ while (<$in>) {
 			$state = $maxstate;
 		}
 	}
-	$tailTable[$state] = [&getClearTail];
-	$tailTable[$state][0] = $modRM;
-	$tailTable[$state][1] = $imm[0];
-	$tailTable[$state][2] = $imm[1];
+	$tailTable[$state] = [&getClearState];
+	for(0 + 17..17 + 17) {
+		$tailTable[$state][$_] = $imm[0];
+	}
+	foreach(@prefixStateOperand) {
+		$tailTable[$state][$_] = $imm[1];
+	}
+	for(0..16) {
+		$tailTable[$state][$_] = $modRM;
+	}
+	foreach(@prefixStateAddress) {
+		$tailTable[$state][$_]++ unless(0 == $modRM);
+	}
 	$state = 0;
 }
 print $outputState "opcodeState";
@@ -53,10 +64,10 @@ foreach(@stateTable) {
 	#print $outputState "\n";
 }
 print $max;
+print $outputTail "AvailabilityModrmImm";
 foreach(@tailTable) {
-	if($_) {
-		print $outputTail "@$_";
-		print $outputTail "\n";
+	foreach(@$_) {
+		print $outputTail " db "."$_"." \n";
 	}
 }
 

@@ -6,6 +6,7 @@
 	
 	BSIZE equ 15
 	PrC equ 13 ;prefix count
+	PREFIXSTATE equ 17 ;state count in prefix fsm
 	
 	include user32.inc
 	includelib user32.lib
@@ -15,6 +16,8 @@
 	.data
 	include prefix_state_table.dat ;opcodeState
 	include state_table.dat ;prefixState
+	include modRM_and_immediate_table.dat ;AvailabilityModrmImm
+	include modRM_state_table.dat ;modrmState
 	
 public disasm 
 	.code
@@ -40,9 +43,9 @@ public disasm
 	mov eax, 0
 	mov al, [esi]
 		qwer:
-			;push ecx
+			push ecx
 				call getInstruction
-			;pop ecx
+			pop ecx
 		loop qwer
 		rdtsc
 		mov ebx, eax
@@ -97,13 +100,19 @@ getInstruction proc
 			add esi, 1
 				jmp opcodeStart
 		exit:
-	pop edx ;load prefix state
-
-;modRM
+	pop ebx ;load prefix state
 	
-
-	;end of work. KO
-	;заканчиваем работу функции
+;modRM
+	add ebx, edx
+	mov edx, 0
+	mov ecx, 0
+	mov dl, AvailabilityModrmImm[ebx]
+	mov cl, modrmState[edx + eax]
+	add esi, ecx
+imm:
+	mov dl, AvailabilityModrmImm[ebx + PREFIXSTATE]
+	add esi, edx
+endOfWork:
 	ret
 getInstruction endp
 
