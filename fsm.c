@@ -28,23 +28,82 @@ INT _stdcall disasm(PVOID, UINT);
 //global variables
 PVOID g_va;
 PVOID ct;
-UINT16 conditionTable[COND*BYTE];
-UINT8 prefixArray[PREFIXCOUNT];
-UINT16 prefixStateTable[PREFIXSTATE*BYTE];
-UINT8 modRMAndImmTable[COND*3];
+// UINT16 conditionTable[COND*BYTE];
+// UINT8 prefixArray[PREFIXCOUNT];
+// UINT16 prefixStateTable[PREFIXSTATE*BYTE];
+// UINT8 modRMAndImmTable[COND*BYTE];
 
-void initializeTable() {
-	UINT i, ii, state ;
-	int f;
-	FILE *in, *fopen();
-	in = fopen("state_table.txt", "r");
-	for(i = 0; i < COND*BYTE; ++i){
-		fscanf(in, "%u", &conditionTable[i]);
+void initializeFSM() {
+	LOADED_IMAGE image;
+	PSTR imageFilename;
+	//imageFilename = argv[1];
+	//imageFilename = "test_short_instruction.exe";
+	//imageFilename = "test_prefix.exe";
+	//imageFilename = "prefix_4_opcode_1.exe";
+	imageFilename = "opcode_1_modRM_SIB_imm.exe";
+	
+	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {
+		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
+		return;
 	}
-	fclose(in);
+	g_va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
+						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
 }
 
-void initializePrefixFSMTable() {
+void main(int argc, PSTR argv[])
+{
+	UINT resInstr[TRYCOUNT];
+	unsigned __int64 tickCount;
+	INSTRUCTION instr[COUNT];
+	int i;
+	for(i = 0; i < COUNT; ++i) {
+		initializeFSM();
+		tickCount = disasm(g_va, COUNT*10);	
+		printf("Time: %d \n",tickCount/(COUNT*10));
+	}
+	/*
+	for(ii = 0; ii < TRYCOUNT; ++ii) {
+		initializeFSM(va);
+		
+		_asm{
+			lfence
+		}
+		tickCount = getticks();
+		for(i = 0; i < COUNT; ++i) {
+			//getByte();
+			//printf("%d\n", i);
+			getInstruction(&instr[i]);
+		}
+		tickCount = (getticks() - tickCount);
+		//printf("stop\n");
+		resInstr[ii] = tickCount;
+	}
+	
+	for(ii = 0; ii < COUNT; ++ii) {
+		printf("%u \n", instr[ii].state);
+	}
+	
+	for(ii = 0; ii < TRYCOUNT; ++ii) 
+		printf("%d \n",resInstr[TRYCOUNT]/COUNT);
+	
+	*/
+	/*
+	void getInstruction(INSTRUCTION *instr) {
+	UINT state = 0;
+	int next = -1;
+	UINT8 b;
+	getPrefix(instr);
+	for(;0 != next;) {
+		if(0 < next) 
+			state = (UINT) next;
+		b = getByte();
+		next = conditionTable[state][b];
+	} 
+	instr->state = state;
+}
+	*/
+	/*	
+	void initializePrefixFSMTable() {
 	UINT i,ii;
 	for(i = 0; i < PREFIXSTATE*BYTE; ++i)
 		prefixStateTable[i] = 0;
@@ -289,81 +348,6 @@ void initializePrefixFSMTable() {
 	prefixStateTable[0xf3 + (256 * 16) ] = 256 *  10;
 }
 
-void initializeFSM() {
-	LOADED_IMAGE image;
-	PSTR imageFilename;
-	//imageFilename = argv[1];
-	//imageFilename = "test_short_instruction.exe";
-	//imageFilename = "test_prefix.exe";
-	imageFilename = "prefix_4_opcode_1.exe";
-	
-	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {
-		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
-		return;
-	}
-	g_va = ImageRvaToVa(image.FileHeader, image.MappedAddress,
-						  image.FileHeader->OptionalHeader.BaseOfCode, NULL);
-	//initializeTable();
-	//initializePrefixFSMTable();
-}
-
-void main(int argc, PSTR argv[])
-{
-	UINT resInstr[TRYCOUNT];
-	unsigned __int64 tickCount;
-	INSTRUCTION instr[COUNT];
-	
-	
-	initializeFSM();
-	_asm{
-		lea eax, conditionTable
-		mov ct, eax
-		lfence
-		}
-	tickCount = disasm(g_va, COUNT);	
-	printf("Time: %d \n",tickCount/COUNT);
-	/*
-	for(ii = 0; ii < TRYCOUNT; ++ii) {
-		initializeFSM(va);
-		
-		_asm{
-			lfence
-		}
-		tickCount = getticks();
-		for(i = 0; i < COUNT; ++i) {
-			//getByte();
-			//printf("%d\n", i);
-			getInstruction(&instr[i]);
-		}
-		tickCount = (getticks() - tickCount);
-		//printf("stop\n");
-		resInstr[ii] = tickCount;
-	}
-	
-	for(ii = 0; ii < COUNT; ++ii) {
-		printf("%u \n", instr[ii].state);
-	}
-	
-	for(ii = 0; ii < TRYCOUNT; ++ii) 
-		printf("%d \n",resInstr[TRYCOUNT]/COUNT);
-	
-	*/
-	/*
-	void getInstruction(INSTRUCTION *instr) {
-	UINT state = 0;
-	int next = -1;
-	UINT8 b;
-	getPrefix(instr);
-	for(;0 != next;) {
-		if(0 < next) 
-			state = (UINT) next;
-		b = getByte();
-		next = conditionTable[state][b];
-	} 
-	instr->state = state;
-}
-	*/
-	/*	
 void prefixArrayInit() {
 	prefixArray[0] = 0xf0;
 	prefixArray[1] = 0x65;

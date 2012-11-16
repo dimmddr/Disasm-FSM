@@ -1,13 +1,10 @@
 ﻿use 5.016;
-use warnings;
-use diagnostics;
+#use warnings;
+#use diagnostics;
 
-#my $fileName = shift or die "Give me the file!";
 
-#open my $in, "<", $fileName or die "$!";
+
 open my $in, "<", "instruction_list.txt" or die "$!";
-open my $outputState, ">", "state_table.dat" or die "wtf";
-open my $outputTail, ">", "modRM_and_immediate_table.dat" or die "wtf";
 
 my $state = 0;
 my $maxstate = 0;
@@ -35,12 +32,14 @@ while (<$in>) {
 			$state = $maxstate;
 		}
 	}
-	$tailTable[$state] = [&getClearState];
+	 #очень много будет пустых состояний, которые еще и не используются, 
+	 #это необходимо для того, чтобы смещение из таблицы для опкодов подходило и сюда и его не надо было вычислять
+
 	for(0 + 17..17 + 17) {
-		$tailTable[$state][$_] = $imm[0];
+		$tailTable[$state][$_] = $imm[1];
 	}
 	foreach(@prefixStateOperand) {
-		$tailTable[$state][$_] = $imm[1];
+		$tailTable[$state][$_] = $imm[0];
 	}
 	for(0..16) {
 		$tailTable[$state][$_] = $modRM;
@@ -48,32 +47,13 @@ while (<$in>) {
 	foreach(@prefixStateAddress) {
 		$tailTable[$state][$_]++ unless(0 == $modRM);
 	}
+	#превращаем состояние в смещение на это состояние
+	for(0..16) {
+		$tailTable[$state][$_] *= 256;
+	}
 	$state = 0;
 }
-print $outputState "opcodeState";
-#вложенные foreach, мрак и ужас
-	my $max = 0;
-foreach(@stateTable) {
-	#print $outputState ;
-	foreach(@$_) {
-		if($_ > $max) {$max = $_;}
-		#$_ *= 512;
-		print $outputState " dw "."$_"." \n";
-		}
-		
-	#print $outputState "\n";
-}
-print $max;
-print $outputTail "AvailabilityModrmImm";
-foreach(@tailTable) {
-	foreach(@$_) {
-		print $outputTail " db "."$_"." \n";
-	}
-}
 
-close $in;
-close $outputState;
-close $outputTail;
 sub getClearState {
 	my @res;
 	for(0x00..0xff) {
@@ -81,10 +61,33 @@ sub getClearState {
 	}
 	@res
 }
-sub getClearTail {
-	my @res;
-	for(0..2) {
-	push @res, 0;
-	}
-	@res
+
+#my $fileName = shift or die "Give me the file!";
+
+#open my $in, "<", $fileName or die "$!";
+open my $outputState, ">", "state_table.dat" or die "wtf";
+open my $outputTail, ">", "modRM_and_immediate_table.dat" or die "wtf";
+
+print $outputState "opcodeState";
+#вложенные foreach, мрак и ужас
+	my $max = 0;
+foreach(@stateTable) {
+	foreach(@$_) {
+		if($_ > $max) {$max = $_;}
+		#$_ *= 512;
+		print $outputState " dw $_ \n";
+		}
 }
+print $max;
+print $outputTail "AvailabilityModrmImm";
+for my $i (0..$maxstate){
+	for(0x00..0xff) {
+		my $s;
+		$s = undef == $tailTable[$i][$_] ?  " dw 0 \n" : " dw $tailTable[$i][$_] \n";
+		print $outputTail "$s";
+	}
+}
+
+close $in;
+close $outputState;
+close $outputTail;

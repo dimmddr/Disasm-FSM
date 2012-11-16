@@ -91,8 +91,10 @@ getInstruction proc
 				;умножаем на ширину таблицы
 				shl edx, 9 ;9 - if size of the cell in the state table will be 2 byte
 				;получаем смещение, по которому хранится следующее состояние
-				mov bx, opcodeState[eax*2 + edx] ;take the next state
+				shl eax, 2
+				mov bx, opcodeState[eax + edx] ;take the next state
 				;получаем следующее состояние
+				shr eax, 2
 				test ebx, ebx ;compare state and 0
 				;сравниваем его с 0
 				jz exit
@@ -103,8 +105,6 @@ getInstruction proc
 	pop ebx ;load prefix state
 	
 ;modRM
-	;здесь ошибка: добавляю я не просто состояние префиксов, а смещение. А использую, так, будто добавляю состояние
-	;в текущем тесте это неважно, префиксов тут нет, но как только заработает то что сть - надо поправить
 	add ebx, edx
 	mov edx, 0
 	mov ecx, 0
