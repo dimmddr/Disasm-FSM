@@ -1,1 +1,0 @@
-opcode:0f|opcode:secondByte|allByte|modRM: :disp(1b):16

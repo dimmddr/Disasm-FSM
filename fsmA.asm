@@ -64,19 +64,18 @@ disasm endp
 getInstruction proc 
 ;prefix
 		mov edx, 0
-		;mov eax, edx
-		;mov edi, offset prefixState
+		jmp start
 	prefixStart:
-		mov ebx, edx
-		mov dx, prefixState[eax*2+edx]
 		mov al, [esi]
 		add esi, 1
+	start:
+		mov ebx, edx
+		mov dx, prefixState[eax*2+edx]
 		test edx, edx ;compare state and 0
 		jnz prefixStart
-		
 		test ebx, ebx
 		jz prefixQuit
-		sub ebx, 12
+		sub ebx, 6144 ;при изменении принципа построения таблицы префиксов не забыть проверять это значение
 		ja prefixQuit
 		sub esi, 1
 		mov al, [esi]
@@ -89,7 +88,7 @@ getInstruction proc
 				mov edx, ebx ;keep current state 
 				;сохраняем текущее состояние
 				;умножаем на ширину таблицы
-				shl edx, 9 ;9 - if size of the cell in the state table will be 2 byte
+				shl edx, 9 ;9 - if size of the cell of state table is 2 byte
 				;получаем смещение, по которому хранится следующее состояние
 				mov bx, opcodeState[eax*2 + edx] ;take the next state
 				;получаем следующее состояние
@@ -104,7 +103,7 @@ getInstruction proc
 	
 ;modRM
 	;здесь ошибка: добавляю я не просто состояние префиксов, а смещение. А использую, так, будто добавляю состояние
-	;в текущем тесте это неважно, префиксов тут нет, но как только заработает то что сть - надо поправить
+	;в текущем тесте это неважно, префиксов тут нет, но как только заработает то что есть - надо поправить
 	add ebx, edx
 	mov edx, 0
 	mov ecx, 0
@@ -114,6 +113,7 @@ getInstruction proc
 imm:
 	mov dx, AvailabilityModrmImm[ebx + PREFIXSTATE]
 	add esi, edx
+	mov al, [esi]
 endOfWork:
 	ret
 getInstruction endp

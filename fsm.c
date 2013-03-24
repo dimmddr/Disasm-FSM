@@ -40,7 +40,8 @@ void initializeFSM() {
 	//imageFilename = "test_short_instruction.exe";
 	//imageFilename = "test_prefix.exe";
 	//imageFilename = "prefix_4_opcode_1.exe";
-	imageFilename = "opcode_1_modRM_SIB_imm.exe";
+	imageFilename = "prefix_2_opcode_1_modRM_SIB_imm.exe";
+	//imageFilename = "opcode_1_modRM_SIB_imm.exe";
 	
 	if (!MapAndLoad(imageFilename, NULL, &image, FALSE, TRUE)) {
 		PRINT_ERROR("MapAndLoad", __FILE__, __LINE__);
