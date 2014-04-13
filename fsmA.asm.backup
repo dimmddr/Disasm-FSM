@@ -1,0 +1,121 @@
+	.686
+	.MMX
+	.XMM
+	.model	flat,stdcall
+	option	casemap:none
+	
+	BSIZE equ 15
+	PrC equ 13 ;prefix count
+	PREFIXSTATE equ 17 ;state count in prefix fsm
+	
+	include user32.inc
+	includelib user32.lib
+	include kernel32.inc
+	includelib kernel32.lib
+	
+	.data
+	include prefix_state_table.dat ;opcodeState
+	include state_table.dat ;prefixState
+	include modRM_and_immediate_table.dat ;AvailabilityModrmImm
+	include modRM_state_table.dat ;modrmState
+	
+public disasm 
+	.code
+	disasm proc byteAddress, count
+	;4 parameters: first byte address, state table address, prefix state table iteration count
+	push ebp
+
+	mov esi, byteAddress
+	mov ecx, count
+	mov eax, 0
+	pre:
+		mov al, [esi]
+		cmp eax, 69h
+	je q
+		add esi, 1
+	jmp pre
+	q:
+	lfence
+	rdtsc
+	cld
+	push eax
+	push edx
+	mov eax, 0
+	mov al, [esi]
+		qwer:
+			push ecx
+				call getInstruction
+			pop ecx
+		loop qwer
+		rdtsc
+		mov ebx, eax
+		mov ecx, edx
+	pop edx
+	pop eax
+	sub ebx, eax
+	sub ecx, edx
+	mov edx, ebx
+	mov eax, ebx
+	pop ebp
+	ret
+disasm endp
+
+;next byte address in esi
+getInstruction proc 
+;prefix
+		mov edx, 0
+		;mov eax, edx
+		;mov edi, offset prefixState
+	prefixStart:
+		mov ebx, edx
+		mov dx, prefixState[eax*2+edx]
+		mov al, [esi]
+		add esi, 1
+		test edx, edx ;compare state and 0
+		jnz prefixStart
+		
+		test ebx, ebx
+		jz prefixQuit
+		sub ebx, 12
+		ja prefixQuit
+		sub esi, 1
+		mov al, [esi]
+	prefixQuit:
+	push ebx ;save prefix state
+
+;opcode
+		mov ebx, 0
+		opcodeStart:
+				mov edx, ebx ;keep current state 
+				;сохраняем текущее состояние
+				;умножаем на ширину таблицы
+				shl edx, 9 ;9 - if size of the cell in the state table will be 2 byte
+				;получаем смещение, по которому хранится следующее состояние
+				shl eax, 2
+				mov bx, opcodeState[eax + edx] ;take the next state
+				;получаем следующее состояние
+				shr eax, 2
+				test ebx, ebx ;compare state and 0
+				;сравниваем его с 0
+				jz exit
+			mov al, [esi]
+			add esi, 1
+				jmp opcodeStart
+		exit:
+	pop ebx ;load prefix state
+	
+;modRM
+	add ebx, edx
+	mov edx, 0
+	mov ecx, 0
+	mov dx, AvailabilityModrmImm[ebx]
+	mov cl, modrmState[edx + eax]
+	add esi, ecx
+imm:
+	mov dx, AvailabilityModrmImm[ebx + PREFIXSTATE]
+	add esi, edx
+endOfWork:
+	ret
+getInstruction endp
+
+end

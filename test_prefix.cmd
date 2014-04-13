@@ -14,9 +14,9 @@ main proc
 
 commands MACRO
 		rept COUNT
-			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 003h, 03Ch
-			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 002h, 01Ch
-			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 003h, 024h
+			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 02fh, 067h, 065h, 00fh, 010h
+			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 02fh, 067h, 026h, 00fh, 049h
+			db 065h, 064h, 026h, 036h, 03eh, 02eh, 067h, 066h, 03fh, 02fh, 0f0h, 02fh, 067h, 02eh, 00fh, 0b6h
 			endm
 		endm
 	

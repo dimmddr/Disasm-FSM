@@ -1,0 +1,788 @@
+06 modRM=0 immediate=0/0
+07 modRM=0 immediate=0/0
+0e modRM=0 immediate=0/0
+16 modRM=0 immediate=0/0
+17 modRM=0 immediate=0/0
+1e modRM=0 immediate=0/0
+1f modRM=0 immediate=0/0
+27 modRM=0 immediate=0/0
+2f modRM=0 immediate=0/0
+37 modRM=0 immediate=0/0
+3f modRM=0 immediate=0/0
+40 modRM=0 immediate=0/0
+41 modRM=0 immediate=0/0
+42 modRM=0 immediate=0/0
+43 modRM=0 immediate=0/0
+44 modRM=0 immediate=0/0
+45 modRM=0 immediate=0/0
+46 modRM=0 immediate=0/0
+47 modRM=0 immediate=0/0
+48 modRM=0 immediate=0/0
+49 modRM=0 immediate=0/0
+4a modRM=0 immediate=0/0
+4b modRM=0 immediate=0/0
+4c modRM=0 immediate=0/0
+4d modRM=0 immediate=0/0
+4e modRM=0 immediate=0/0
+4f modRM=0 immediate=0/0
+50 modRM=0 immediate=0/0
+51 modRM=0 immediate=0/0
+52 modRM=0 immediate=0/0
+53 modRM=0 immediate=0/0
+54 modRM=0 immediate=0/0
+55 modRM=0 immediate=0/0
+56 modRM=0 immediate=0/0
+57 modRM=0 immediate=0/0
+58 modRM=0 immediate=0/0
+59 modRM=0 immediate=0/0
+5a modRM=0 immediate=0/0
+5b modRM=0 immediate=0/0
+5c modRM=0 immediate=0/0
+5d modRM=0 immediate=0/0
+5e modRM=0 immediate=0/0
+5f modRM=0 immediate=0/0
+60 modRM=0 immediate=0/0
+61 modRM=0 immediate=0/0
+6c modRM=0 immediate=0/0
+6d modRM=0 immediate=0/0
+6e modRM=0 immediate=0/0
+6f modRM=0 immediate=0/0
+70 modRM=0 immediate=0/0
+71 modRM=0 immediate=0/0
+72 modRM=0 immediate=0/0
+73 modRM=0 immediate=0/0
+74 modRM=0 immediate=0/0
+75 modRM=0 immediate=0/0
+76 modRM=0 immediate=0/0
+77 modRM=0 immediate=0/0
+78 modRM=0 immediate=0/0
+79 modRM=0 immediate=0/0
+7a modRM=0 immediate=0/0
+7b modRM=0 immediate=0/0
+7c modRM=0 immediate=0/0
+7d modRM=0 immediate=0/0
+7e modRM=0 immediate=0/0
+7f modRM=0 immediate=0/0
+90 modRM=0 immediate=0/0
+91 modRM=0 immediate=0/0
+92 modRM=0 immediate=0/0
+93 modRM=0 immediate=0/0
+94 modRM=0 immediate=0/0
+95 modRM=0 immediate=0/0
+96 modRM=0 immediate=0/0
+97 modRM=0 immediate=0/0
+98 modRM=0 immediate=0/0
+99 modRM=0 immediate=0/0
+9a modRM=0 immediate=0/0
+9b modRM=0 immediate=0/0
+9c modRM=0 immediate=0/0
+9d modRM=0 immediate=0/0
+9e modRM=0 immediate=0/0
+9f modRM=0 immediate=0/0
+a0 modRM=0 immediate=0/0
+a1 modRM=0 immediate=0/0
+a2 modRM=0 immediate=0/0
+a3 modRM=0 immediate=0/0
+a4 modRM=0 immediate=0/0
+a5 modRM=0 immediate=0/0
+a6 modRM=0 immediate=0/0
+a7 modRM=0 immediate=0/0
+aa modRM=0 immediate=0/0
+ab modRM=0 immediate=0/0
+ac modRM=0 immediate=0/0
+ad modRM=0 immediate=0/0
+ae modRM=0 immediate=0/0
+af modRM=0 immediate=0/0
+c3 modRM=0 immediate=0/0
+c9 modRM=0 immediate=0/0
+cb modRM=0 immediate=0/0
+cc modRM=0 immediate=0/0
+ce modRM=0 immediate=0/0
+cf modRM=0 immediate=0/0
+ec modRM=0 immediate=0/0
+ed modRM=0 immediate=0/0
+ee modRM=0 immediate=0/0
+ef modRM=0 immediate=0/0
+f4 modRM=0 immediate=0/0
+f5 modRM=0 immediate=0/0
+f8 modRM=0 immediate=0/0
+f9 modRM=0 immediate=0/0
+fa modRM=0 immediate=0/0
+fb modRM=0 immediate=0/0
+fc modRM=0 immediate=0/0
+fd modRM=0 immediate=0/0
+00 modRM=1 immediate=0/0
+01 modRM=1 immediate=0/0
+02 modRM=1 immediate=0/0
+03 modRM=1 immediate=0/0
+08 modRM=1 immediate=0/0
+09 modRM=1 immediate=0/0
+0a modRM=1 immediate=0/0
+0b modRM=1 immediate=0/0
+10 modRM=1 immediate=0/0
+11 modRM=1 immediate=0/0
+12 modRM=1 immediate=0/0
+13 modRM=1 immediate=0/0
+18 modRM=1 immediate=0/0
+19 modRM=1 immediate=0/0
+1a modRM=1 immediate=0/0
+1b modRM=1 immediate=0/0
+20 modRM=1 immediate=0/0
+21 modRM=1 immediate=0/0
+22 modRM=1 immediate=0/0
+23 modRM=1 immediate=0/0
+24 modRM=1 immediate=0/0
+28 modRM=1 immediate=0/0
+29 modRM=1 immediate=0/0
+2a modRM=1 immediate=0/0
+2b modRM=1 immediate=0/0
+30 modRM=1 immediate=0/0
+31 modRM=1 immediate=0/0
+32 modRM=1 immediate=0/0
+33 modRM=1 immediate=0/0
+34 modRM=1 immediate=0/0
+38 modRM=1 immediate=0/0
+39 modRM=1 immediate=0/0
+3a modRM=1 immediate=0/0
+3b modRM=1 immediate=0/0
+62 modRM=1 immediate=0/0
+63 modRM=1 immediate=0/0
+84 modRM=1 immediate=0/0
+85 modRM=1 immediate=0/0
+86 modRM=1 immediate=0/0
+87 modRM=1 immediate=0/0
+88 modRM=1 immediate=0/0
+89 modRM=1 immediate=0/0
+8a modRM=1 immediate=0/0
+8b modRM=1 immediate=0/0
+8c modRM=1 immediate=0/0
+8d modRM=1 immediate=0/0
+8e modRM=1 immediate=0/0
+8f modRM=1 immediate=0/0
+c4 modRM=1 immediate=0/0
+c5 modRM=1 immediate=0/0
+d0 modRM=1 immediate=0/0
+d1 modRM=1 immediate=0/0
+d2 modRM=1 immediate=0/0
+d3 modRM=1 immediate=0/0
+d7 modRM=1 immediate=0/0
+f6 modRM=1 immediate=0/0
+f7 modRM=1 immediate=0/0
+fe modRM=1 immediate=0/0
+ff modRM=1 immediate=0/0
+04 modRM=0 immediate=1/1
+0c modRM=0 immediate=1/1
+14 modRM=0 immediate=1/1
+1c modRM=0 immediate=1/1
+24 modRM=0 immediate=1/1
+2c modRM=0 immediate=1/1
+34 modRM=0 immediate=1/1
+3c modRM=0 immediate=1/1
+44 modRM=0 immediate=1/1
+4c modRM=0 immediate=1/1
+6a modRM=0 immediate=1/1
+a8 modRM=0 immediate=1/1
+b0 modRM=0 immediate=1/1
+b1 modRM=0 immediate=1/1
+b2 modRM=0 immediate=1/1
+b3 modRM=0 immediate=1/1
+b4 modRM=0 immediate=1/1
+b5 modRM=0 immediate=1/1
+b6 modRM=0 immediate=1/1
+b7 modRM=0 immediate=1/1
+c0 modRM=0 immediate=1/1
+c1 modRM=0 immediate=1/1
+cd modRM=0 immediate=1/1
+d4 modRM=0 immediate=1/1
+d5 modRM=0 immediate=1/1
+e0 modRM=0 immediate=1/1
+e1 modRM=0 immediate=1/1
+e2 modRM=0 immediate=1/1
+e3 modRM=0 immediate=1/1
+e4 modRM=0 immediate=1/1
+e5 modRM=0 immediate=1/1
+e6 modRM=0 immediate=1/1
+e7 modRM=0 immediate=1/1
+eb modRM=0 immediate=1/1
+c2 modRM=0 immediate=2/2
+ca modRM=0 immediate=2/2
+05 modRM=0 immediate=2/4
+0d modRM=0 immediate=2/4
+15 modRM=0 immediate=2/4
+1d modRM=0 immediate=2/4
+25 modRM=0 immediate=2/4
+2d modRM=0 immediate=2/4
+35 modRM=0 immediate=2/4
+3d modRM=0 immediate=2/4
+45 modRM=0 immediate=2/4
+4d modRM=0 immediate=2/4
+68 modRM=0 immediate=2/4
+a9 modRM=0 immediate=2/4
+b8 modRM=0 immediate=2/4
+b9 modRM=0 immediate=2/4
+ba modRM=0 immediate=2/4
+bb modRM=0 immediate=2/4
+bc modRM=0 immediate=2/4
+bd modRM=0 immediate=2/4
+be modRM=0 immediate=2/4
+bf modRM=0 immediate=2/4
+e8 modRM=0 immediate=2/4
+e9 modRM=0 immediate=2/4
+69 modRM=1 immediate=2/4
+81 modRM=1 immediate=2/4
+c7 modRM=1 immediate=2/4
+6b modRM=1 immediate=1/1
+80 modRM=1 immediate=1/1
+82 modRM=1 immediate=1/1
+83 modRM=1 immediate=1/1
+c6 modRM=1 immediate=1/1
+c8 modRM=0 immediate=3/3
+ea modRM=0 immediate=4/6
+0f 00 modRM=0 immediate=0/0
+0f 01 modRM=0 immediate=0/0
+0f 02 modRM=0 immediate=0/0
+0f 03 modRM=0 immediate=0/0
+0f 05 modRM=0 immediate=0/0
+0f 06 modRM=0 immediate=0/0
+0f 07 modRM=0 immediate=0/0
+0f 08 modRM=0 immediate=0/0
+0f 09 modRM=0 immediate=0/0
+0f 0b modRM=0 immediate=0/0
+0f 0d modRM=0 immediate=0/0
+0f 10 modRM=0 immediate=0/0
+0f 11 modRM=0 immediate=0/0
+0f 12 modRM=0 immediate=0/0
+0f 13 modRM=0 immediate=0/0
+0f 14 modRM=0 immediate=0/0
+0f 15 modRM=0 immediate=0/0
+0f 16 modRM=0 immediate=0/0
+0f 17 modRM=0 immediate=0/0
+0f 18 modRM=0 immediate=0/0
+0f 1f modRM=0 immediate=0/0
+0f 20 modRM=0 immediate=0/0
+0f 21 modRM=0 immediate=0/0
+0f 22 modRM=0 immediate=0/0
+0f 23 modRM=0 immediate=0/0
+0f 28 modRM=0 immediate=0/0
+0f 29 modRM=0 immediate=0/0
+0f 2a modRM=0 immediate=0/0
+0f 2b modRM=0 immediate=0/0
+0f 2c modRM=0 immediate=0/0
+0f 2d modRM=0 immediate=0/0
+0f 2e modRM=0 immediate=0/0
+0f 2f modRM=0 immediate=0/0
+0f 30 modRM=0 immediate=0/0
+0f 31 modRM=0 immediate=0/0
+0f 32 modRM=0 immediate=0/0
+0f 33 modRM=0 immediate=0/0
+0f 34 modRM=0 immediate=0/0
+0f 35 modRM=0 immediate=0/0
+0f 37 modRM=0 immediate=0/0
+0f 40 modRM=0 immediate=0/0
+0f 41 modRM=0 immediate=0/0
+0f 42 modRM=0 immediate=0/0
+0f 43 modRM=0 immediate=0/0
+0f 44 modRM=0 immediate=0/0
+0f 45 modRM=0 immediate=0/0
+0f 46 modRM=0 immediate=0/0
+0f 47 modRM=0 immediate=0/0
+0f 48 modRM=0 immediate=0/0
+0f 49 modRM=0 immediate=0/0
+0f 4a modRM=0 immediate=0/0
+0f 4b modRM=0 immediate=0/0
+0f 4c modRM=0 immediate=0/0
+0f 4d modRM=0 immediate=0/0
+0f 4e modRM=0 immediate=0/0
+0f 4f modRM=0 immediate=0/0
+0f 50 modRM=0 immediate=0/0
+0f 51 modRM=0 immediate=0/0
+0f 52 modRM=0 immediate=0/0
+0f 53 modRM=0 immediate=0/0
+0f 54 modRM=0 immediate=0/0
+0f 55 modRM=0 immediate=0/0
+0f 56 modRM=0 immediate=0/0
+0f 57 modRM=0 immediate=0/0
+0f 58 modRM=0 immediate=0/0
+0f 59 modRM=0 immediate=0/0
+0f 5a modRM=0 immediate=0/0
+0f 5b modRM=0 immediate=0/0
+0f 5c modRM=0 immediate=0/0
+0f 5d modRM=0 immediate=0/0
+0f 5e modRM=0 immediate=0/0
+0f 5f modRM=0 immediate=0/0
+0f 60 modRM=0 immediate=0/0
+0f 61 modRM=0 immediate=0/0
+0f 62 modRM=0 immediate=0/0
+0f 63 modRM=0 immediate=0/0
+0f 64 modRM=0 immediate=0/0
+0f 65 modRM=0 immediate=0/0
+0f 66 modRM=0 immediate=0/0
+0f 67 modRM=0 immediate=0/0
+0f 68 modRM=0 immediate=0/0
+0f 69 modRM=0 immediate=0/0
+0f 6a modRM=0 immediate=0/0
+0f 6b modRM=0 immediate=0/0
+0f 6e modRM=0 immediate=0/0
+0f 6f modRM=0 immediate=0/0
+0f 70 modRM=0 immediate=0/0
+0f 71 modRM=0 immediate=0/0
+0f 72 modRM=0 immediate=0/0
+0f 73 modRM=0 immediate=0/0
+0f 74 modRM=0 immediate=0/0
+0f 75 modRM=0 immediate=0/0
+0f 76 modRM=0 immediate=0/0
+0f 77 modRM=0 immediate=0/0
+0f 78 modRM=0 immediate=0/0
+0f 79 modRM=0 immediate=0/0
+0f 7e modRM=0 immediate=0/0
+0f 7f modRM=0 immediate=0/0
+0f 80 modRM=0 immediate=0/0
+0f 81 modRM=0 immediate=0/0
+0f 82 modRM=0 immediate=0/0
+0f 83 modRM=0 immediate=0/0
+0f 84 modRM=0 immediate=0/0
+0f 85 modRM=0 immediate=0/0
+0f 86 modRM=0 immediate=0/0
+0f 87 modRM=0 immediate=0/0
+0f 88 modRM=0 immediate=0/0
+0f 89 modRM=0 immediate=0/0
+0f 8a modRM=0 immediate=0/0
+0f 8b modRM=0 immediate=0/0
+0f 8c modRM=0 immediate=0/0
+0f 8d modRM=0 immediate=0/0
+0f 8e modRM=0 immediate=0/0
+0f 8f modRM=0 immediate=0/0
+0f 90 modRM=0 immediate=0/0
+0f 91 modRM=0 immediate=0/0
+0f 92 modRM=0 immediate=0/0
+0f 93 modRM=0 immediate=0/0
+0f 94 modRM=0 immediate=0/0
+0f 95 modRM=0 immediate=0/0
+0f 96 modRM=0 immediate=0/0
+0f 97 modRM=0 immediate=0/0
+0f 98 modRM=0 immediate=0/0
+0f 99 modRM=0 immediate=0/0
+0f 9a modRM=0 immediate=0/0
+0f 9b modRM=0 immediate=0/0
+0f 9c modRM=0 immediate=0/0
+0f 9d modRM=0 immediate=0/0
+0f 9e modRM=0 immediate=0/0
+0f 9f modRM=0 immediate=0/0
+0f a0 modRM=0 immediate=0/0
+0f a1 modRM=0 immediate=0/0
+0f a2 modRM=0 immediate=0/0
+0f a3 modRM=0 immediate=0/0
+0f a4 modRM=0 immediate=0/0
+0f a5 modRM=0 immediate=0/0
+0f a8 modRM=0 immediate=0/0
+0f a9 modRM=0 immediate=0/0
+0f aa modRM=0 immediate=0/0
+0f ab modRM=0 immediate=0/0
+0f ac modRM=0 immediate=0/0
+0f ad modRM=0 immediate=0/0
+0f ae modRM=0 immediate=0/0
+0f af modRM=0 immediate=0/0
+0f b0 modRM=0 immediate=0/0
+0f b1 modRM=0 immediate=0/0
+0f b2 modRM=0 immediate=0/0
+0f b3 modRM=0 immediate=0/0
+0f b4 modRM=0 immediate=0/0
+0f b5 modRM=0 immediate=0/0
+0f b6 modRM=0 immediate=0/0
+0f b7 modRM=0 immediate=0/0
+0f b8 modRM=0 immediate=0/0
+0f b9 modRM=0 immediate=0/0
+0f ba modRM=0 immediate=0/0
+0f bb modRM=0 immediate=0/0
+0f bc modRM=0 immediate=0/0
+0f bd modRM=0 immediate=0/0
+0f be modRM=0 immediate=0/0
+0f bf modRM=0 immediate=0/0
+0f c0 modRM=0 immediate=0/0
+0f c1 modRM=0 immediate=0/0
+0f c2 modRM=0 immediate=0/0
+0f c3 modRM=0 immediate=0/0
+0f c4 modRM=0 immediate=0/0
+0f c5 modRM=0 immediate=0/0
+0f c6 modRM=0 immediate=0/0
+0f c7 modRM=0 immediate=0/0
+0f c8 modRM=0 immediate=0/0
+0f c9 modRM=0 immediate=0/0
+0f ca modRM=0 immediate=0/0
+0f cb modRM=0 immediate=0/0
+0f cc modRM=0 immediate=0/0
+0f cd modRM=0 immediate=0/0
+0f ce modRM=0 immediate=0/0
+0f cf modRM=0 immediate=0/0
+0f d1 modRM=0 immediate=0/0
+0f d2 modRM=0 immediate=0/0
+0f d3 modRM=0 immediate=0/0
+0f d4 modRM=0 immediate=0/0
+0f d5 modRM=0 immediate=0/0
+0f d7 modRM=0 immediate=0/0
+0f d8 modRM=0 immediate=0/0
+0f d9 modRM=0 immediate=0/0
+0f da modRM=0 immediate=0/0
+0f db modRM=0 immediate=0/0
+0f dc modRM=0 immediate=0/0
+0f dd modRM=0 immediate=0/0
+0f de modRM=0 immediate=0/0
+0f df modRM=0 immediate=0/0
+0f e0 modRM=0 immediate=0/0
+0f e1 modRM=0 immediate=0/0
+0f e2 modRM=0 immediate=0/0
+0f e3 modRM=0 immediate=0/0
+0f e4 modRM=0 immediate=0/0
+0f e5 modRM=0 immediate=0/0
+0f e7 modRM=0 immediate=0/0
+0f e8 modRM=0 immediate=0/0
+0f e9 modRM=0 immediate=0/0
+0f ea modRM=0 immediate=0/0
+0f eb modRM=0 immediate=0/0
+0f ec modRM=0 immediate=0/0
+0f ed modRM=0 immediate=0/0
+0f ee modRM=0 immediate=0/0
+0f ef modRM=0 immediate=0/0
+0f f1 modRM=0 immediate=0/0
+0f f2 modRM=0 immediate=0/0
+0f f3 modRM=0 immediate=0/0
+0f f4 modRM=0 immediate=0/0
+0f f5 modRM=0 immediate=0/0
+0f f6 modRM=0 immediate=0/0
+0f f7 modRM=0 immediate=0/0
+0f f8 modRM=0 immediate=0/0
+0f f9 modRM=0 immediate=0/0
+0f fa modRM=0 immediate=0/0
+0f fb modRM=0 immediate=0/0
+0f fc modRM=0 immediate=0/0
+0f fd modRM=0 immediate=0/0
+0f fe modRM=0 immediate=0/0
+66 0f 10 modRM=0 immediate=0/0
+66 0f 11 modRM=0 immediate=0/0
+66 0f 12 modRM=0 immediate=0/0
+66 0f 13 modRM=0 immediate=0/0
+66 0f 14 modRM=0 immediate=0/0
+66 0f 15 modRM=0 immediate=0/0
+66 0f 16 modRM=0 immediate=0/0
+66 0f 17 modRM=0 immediate=0/0
+66 0f 28 modRM=0 immediate=0/0
+66 0f 29 modRM=0 immediate=0/0
+66 0f 2a modRM=0 immediate=0/0
+66 0f 2b modRM=0 immediate=0/0
+66 0f 2c modRM=0 immediate=0/0
+66 0f 2d modRM=0 immediate=0/0
+66 0f 2e modRM=0 immediate=0/0
+66 0f 2f modRM=0 immediate=0/0
+66 0f 50 modRM=0 immediate=0/0
+66 0f 51 modRM=0 immediate=0/0
+66 0f 54 modRM=0 immediate=0/0
+66 0f 55 modRM=0 immediate=0/0
+66 0f 56 modRM=0 immediate=0/0
+66 0f 57 modRM=0 immediate=0/0
+66 0f 58 modRM=0 immediate=0/0
+66 0f 59 modRM=0 immediate=0/0
+66 0f 5a modRM=0 immediate=0/0
+66 0f 5b modRM=0 immediate=0/0
+66 0f 5c modRM=0 immediate=0/0
+66 0f 5d modRM=0 immediate=0/0
+66 0f 5e modRM=0 immediate=0/0
+66 0f 5f modRM=0 immediate=0/0
+66 0f 60 modRM=0 immediate=0/0
+66 0f 61 modRM=0 immediate=0/0
+66 0f 62 modRM=0 immediate=0/0
+66 0f 63 modRM=0 immediate=0/0
+66 0f 64 modRM=0 immediate=0/0
+66 0f 65 modRM=0 immediate=0/0
+66 0f 66 modRM=0 immediate=0/0
+66 0f 67 modRM=0 immediate=0/0
+66 0f 68 modRM=0 immediate=0/0
+66 0f 69 modRM=0 immediate=0/0
+66 0f 6a modRM=0 immediate=0/0
+66 0f 6b modRM=0 immediate=0/0
+66 0f 6c modRM=0 immediate=0/0
+66 0f 6d modRM=0 immediate=0/0
+66 0f 6e modRM=0 immediate=0/0
+66 0f 6f modRM=0 immediate=0/0
+66 0f 70 modRM=0 immediate=0/0
+66 0f 74 modRM=0 immediate=0/0
+66 0f 75 modRM=0 immediate=0/0
+66 0f 76 modRM=0 immediate=0/0
+66 0f 7c modRM=0 immediate=0/0
+66 0f 7d modRM=0 immediate=0/0
+66 0f 7e modRM=0 immediate=0/0
+66 0f 7f modRM=0 immediate=0/0
+66 0f c2 modRM=0 immediate=0/0
+66 0f c4 modRM=0 immediate=0/0
+66 0f c5 modRM=0 immediate=0/0
+66 0f c6 modRM=0 immediate=0/0
+66 0f d0 modRM=0 immediate=0/0
+66 0f d1 modRM=0 immediate=0/0
+66 0f d2 modRM=0 immediate=0/0
+66 0f d3 modRM=0 immediate=0/0
+66 0f d4 modRM=0 immediate=0/0
+66 0f d5 modRM=0 immediate=0/0
+66 0f d6 modRM=0 immediate=0/0
+66 0f d7 modRM=0 immediate=0/0
+66 0f d8 modRM=0 immediate=0/0
+66 0f d9 modRM=0 immediate=0/0
+66 0f da modRM=0 immediate=0/0
+66 0f db modRM=0 immediate=0/0
+66 0f dc modRM=0 immediate=0/0
+66 0f dd modRM=0 immediate=0/0
+66 0f de modRM=0 immediate=0/0
+66 0f df modRM=0 immediate=0/0
+66 0f e0 modRM=0 immediate=0/0
+66 0f e1 modRM=0 immediate=0/0
+66 0f e2 modRM=0 immediate=0/0
+66 0f e3 modRM=0 immediate=0/0
+66 0f e4 modRM=0 immediate=0/0
+66 0f e5 modRM=0 immediate=0/0
+66 0f e6 modRM=0 immediate=0/0
+66 0f e7 modRM=0 immediate=0/0
+66 0f e8 modRM=0 immediate=0/0
+66 0f e9 modRM=0 immediate=0/0
+66 0f ea modRM=0 immediate=0/0
+66 0f eb modRM=0 immediate=0/0
+66 0f ec modRM=0 immediate=0/0
+66 0f ed modRM=0 immediate=0/0
+66 0f ee modRM=0 immediate=0/0
+66 0f ef modRM=0 immediate=0/0
+66 0f f1 modRM=0 immediate=0/0
+66 0f f2 modRM=0 immediate=0/0
+66 0f f3 modRM=0 immediate=0/0
+66 0f f4 modRM=0 immediate=0/0
+66 0f f5 modRM=0 immediate=0/0
+66 0f f6 modRM=0 immediate=0/0
+66 0f f7 modRM=0 immediate=0/0
+66 0f f8 modRM=0 immediate=0/0
+66 0f f9 modRM=0 immediate=0/0
+66 0f fa modRM=0 immediate=0/0
+66 0f fb modRM=0 immediate=0/0
+66 0f fc modRM=0 immediate=0/0
+66 0f fd modRM=0 immediate=0/0
+66 0f fe modRM=0 immediate=0/0
+f2 0f 10 modRM=0 immediate=0/0
+f2 0f 11 modRM=0 immediate=0/0
+f2 0f 12 modRM=0 immediate=0/0
+f2 0f 17 modRM=0 immediate=0/0
+f2 0f 2a modRM=0 immediate=0/0
+f2 0f 2c modRM=0 immediate=0/0
+f2 0f 2d modRM=0 immediate=0/0
+f2 0f 51 modRM=0 immediate=0/0
+f2 0f 58 modRM=0 immediate=0/0
+f2 0f 59 modRM=0 immediate=0/0
+f2 0f 5a modRM=0 immediate=0/0
+f2 0f 5c modRM=0 immediate=0/0
+f2 0f 5d modRM=0 immediate=0/0
+f2 0f 5e modRM=0 immediate=0/0
+f2 0f 5f modRM=0 immediate=0/0
+f2 0f 70 modRM=0 immediate=0/0
+f2 0f 7c modRM=0 immediate=0/0
+f2 0f 7d modRM=0 immediate=0/0
+f2 0f c2 modRM=0 immediate=0/0
+f2 0f d0 modRM=0 immediate=0/0
+f2 0f d6 modRM=0 immediate=0/0
+f2 0f e6 modRM=0 immediate=0/0
+f2 0f f0 modRM=0 immediate=0/0
+f3 0f 10 modRM=0 immediate=0/0
+f3 0f 11 modRM=0 immediate=0/0
+f3 0f 12 modRM=0 immediate=0/0
+f3 0f 16 modRM=0 immediate=0/0
+f3 0f 2a modRM=0 immediate=0/0
+f3 0f 2c modRM=0 immediate=0/0
+f3 0f 2d modRM=0 immediate=0/0
+f3 0f 51 modRM=0 immediate=0/0
+f3 0f 52 modRM=0 immediate=0/0
+f3 0f 53 modRM=0 immediate=0/0
+f3 0f 58 modRM=0 immediate=0/0
+f3 0f 59 modRM=0 immediate=0/0
+f3 0f 5a modRM=0 immediate=0/0
+f3 0f 5b modRM=0 immediate=0/0
+f3 0f 5c modRM=0 immediate=0/0
+f3 0f 5d modRM=0 immediate=0/0
+f3 0f 5e modRM=0 immediate=0/0
+f3 0f 5f modRM=0 immediate=0/0
+f3 0f 6f modRM=0 immediate=0/0
+f3 0f 70 modRM=0 immediate=0/0
+f3 0f 7e modRM=0 immediate=0/0
+f3 0f 7f modRM=0 immediate=0/0
+f3 0f b0 modRM=0 immediate=0/0
+f3 0f bc modRM=0 immediate=0/0
+f3 0f bd modRM=0 immediate=0/0
+f3 0f c2 modRM=0 immediate=0/0
+f3 0f d6 modRM=0 immediate=0/0
+f3 0f e6 modRM=0 immediate=0/0
+0f 38 00 modRM=0 immediate=0/0
+0f 38 01 modRM=0 immediate=0/0
+0f 38 02 modRM=0 immediate=0/0
+0f 38 03 modRM=0 immediate=0/0
+0f 38 04 modRM=0 immediate=0/0
+0f 38 05 modRM=0 immediate=0/0
+0f 38 06 modRM=0 immediate=0/0
+0f 38 07 modRM=0 immediate=0/0
+0f 38 08 modRM=0 immediate=0/0
+0f 38 08 modRM=0 immediate=0/0
+0f 38 0a modRM=0 immediate=0/0
+0f 38 0b modRM=0 immediate=0/0
+0f 38 1c modRM=0 immediate=0/0
+0f 38 1d modRM=0 immediate=0/0
+0f 38 1e modRM=0 immediate=0/0
+0f 38 f0 modRM=0 immediate=0/0
+0f 38 f1 modRM=0 immediate=0/0
+0f 38 f2 modRM=0 immediate=0/0
+0f 38 f3 modRM=0 immediate=0/0
+0f 38 f5 modRM=0 immediate=0/0
+0f 38 f7 modRM=0 immediate=0/0
+66 0f 38 00 modRM=0 immediate=0/0
+66 0f 38 01 modRM=0 immediate=0/0
+66 0f 38 02 modRM=0 immediate=0/0
+66 0f 38 03 modRM=0 immediate=0/0
+66 0f 38 04 modRM=0 immediate=0/0
+66 0f 38 05 modRM=0 immediate=0/0
+66 0f 38 06 modRM=0 immediate=0/0
+66 0f 38 07 modRM=0 immediate=0/0
+66 0f 38 08 modRM=0 immediate=0/0
+66 0f 38 09 modRM=0 immediate=0/0
+66 0f 38 0a modRM=0 immediate=0/0
+66 0f 38 0b modRM=0 immediate=0/0
+66 0f 38 0c modRM=0 immediate=0/0
+66 0f 38 0d modRM=0 immediate=0/0
+66 0f 38 0e modRM=0 immediate=0/0
+66 0f 38 0f modRM=0 immediate=0/0
+66 0f 38 10 modRM=0 immediate=0/0
+66 0f 38 13 modRM=0 immediate=0/0
+66 0f 38 14 modRM=0 immediate=0/0
+66 0f 38 15 modRM=0 immediate=0/0
+66 0f 38 16 modRM=0 immediate=0/0
+66 0f 38 17 modRM=0 immediate=0/0
+66 0f 38 1c modRM=0 immediate=0/0
+66 0f 38 1d modRM=0 immediate=0/0
+66 0f 38 1e modRM=0 immediate=0/0
+66 0f 38 20 modRM=0 immediate=0/0
+66 0f 38 21 modRM=0 immediate=0/0
+66 0f 38 22 modRM=0 immediate=0/0
+66 0f 38 23 modRM=0 immediate=0/0
+66 0f 38 24 modRM=0 immediate=0/0
+66 0f 38 25 modRM=0 immediate=0/0
+66 0f 38 28 modRM=0 immediate=0/0
+66 0f 38 29 modRM=0 immediate=0/0
+66 0f 38 2a modRM=0 immediate=0/0
+66 0f 38 2b modRM=0 immediate=0/0
+66 0f 38 2c modRM=0 immediate=0/0
+66 0f 38 2d modRM=0 immediate=0/0
+66 0f 38 2e modRM=0 immediate=0/0
+66 0f 38 2f modRM=0 immediate=0/0
+66 0f 38 30 modRM=0 immediate=0/0
+66 0f 38 31 modRM=0 immediate=0/0
+66 0f 38 32 modRM=0 immediate=0/0
+66 0f 38 33 modRM=0 immediate=0/0
+66 0f 38 34 modRM=0 immediate=0/0
+66 0f 38 35 modRM=0 immediate=0/0
+66 0f 38 36 modRM=0 immediate=0/0
+66 0f 38 37 modRM=0 immediate=0/0
+66 0f 38 38 modRM=0 immediate=0/0
+66 0f 38 39 modRM=0 immediate=0/0
+66 0f 38 3a modRM=0 immediate=0/0
+66 0f 38 3b modRM=0 immediate=0/0
+66 0f 38 3c modRM=0 immediate=0/0
+66 0f 38 3d modRM=0 immediate=0/0
+66 0f 38 3e modRM=0 immediate=0/0
+66 0f 38 3f modRM=0 immediate=0/0
+66 0f 38 40 modRM=0 immediate=0/0
+66 0f 38 41 modRM=0 immediate=0/0
+66 0f 38 45 modRM=0 immediate=0/0
+66 0f 38 46 modRM=0 immediate=0/0
+66 0f 38 47 modRM=0 immediate=0/0
+66 0f 38 58 modRM=0 immediate=0/0
+66 0f 38 59 modRM=0 immediate=0/0
+66 0f 38 5a modRM=0 immediate=0/0
+66 0f 38 78 modRM=0 immediate=0/0
+66 0f 38 79 modRM=0 immediate=0/0
+66 0f 38 80 modRM=0 immediate=0/0
+66 0f 38 81 modRM=0 immediate=0/0
+66 0f 38 82 modRM=0 immediate=0/0
+66 0f 38 8c modRM=0 immediate=0/0
+66 0f 38 8e modRM=0 immediate=0/0
+66 0f 38 90 modRM=0 immediate=0/0
+66 0f 38 91 modRM=0 immediate=0/0
+66 0f 38 92 modRM=0 immediate=0/0
+66 0f 38 93 modRM=0 immediate=0/0
+66 0f 38 96 modRM=0 immediate=0/0
+66 0f 38 97 modRM=0 immediate=0/0
+66 0f 38 98 modRM=0 immediate=0/0
+66 0f 38 99 modRM=0 immediate=0/0
+66 0f 38 9a modRM=0 immediate=0/0
+66 0f 38 9b modRM=0 immediate=0/0
+66 0f 38 9c modRM=0 immediate=0/0
+66 0f 38 9d modRM=0 immediate=0/0
+66 0f 38 9e modRM=0 immediate=0/0
+66 0f 38 9f modRM=0 immediate=0/0
+66 0f 38 a6 modRM=0 immediate=0/0
+66 0f 38 a7 modRM=0 immediate=0/0
+66 0f 38 a8 modRM=0 immediate=0/0
+66 0f 38 a9 modRM=0 immediate=0/0
+66 0f 38 aa modRM=0 immediate=0/0
+66 0f 38 ab modRM=0 immediate=0/0
+66 0f 38 ac modRM=0 immediate=0/0
+66 0f 38 ad modRM=0 immediate=0/0
+66 0f 38 ae modRM=0 immediate=0/0
+66 0f 38 af modRM=0 immediate=0/0
+66 0f 38 b6 modRM=0 immediate=0/0
+66 0f 38 b7 modRM=0 immediate=0/0
+66 0f 38 b8 modRM=0 immediate=0/0
+66 0f 38 b9 modRM=0 immediate=0/0
+66 0f 38 ba modRM=0 immediate=0/0
+66 0f 38 bb modRM=0 immediate=0/0
+66 0f 38 bc modRM=0 immediate=0/0
+66 0f 38 bd modRM=0 immediate=0/0
+66 0f 38 be modRM=0 immediate=0/0
+66 0f 38 bf modRM=0 immediate=0/0
+66 0f 38 db modRM=0 immediate=0/0
+66 0f 38 dc modRM=0 immediate=0/0
+66 0f 38 dd modRM=0 immediate=0/0
+66 0f 38 de modRM=0 immediate=0/0
+66 0f 38 df modRM=0 immediate=0/0
+66 0f 38 f0 modRM=0 immediate=0/0
+66 0f 38 f1 modRM=0 immediate=0/0
+66 0f 38 f7 modRM=0 immediate=0/0
+f2 0f 38 f0 modRM=0 immediate=0/0
+f2 0f 38 f1 modRM=0 immediate=0/0
+f2 0f 38 f5 modRM=0 immediate=0/0
+f2 0f 38 f6 modRM=0 immediate=0/0
+f2 0f 38 f7 modRM=0 immediate=0/0
+f3 0f 38 f5 modRM=0 immediate=0/0
+f3 0f 38 f7 modRM=0 immediate=0/0
+0f 38 0f modRM=0 immediate=0/0
+66 0f 3a 00 modRM=0 immediate=0/0
+66 0f 3a 01 modRM=0 immediate=0/0
+66 0f 3a 02 modRM=0 immediate=0/0
+66 0f 3a 04 modRM=0 immediate=0/0
+66 0f 3a 05 modRM=0 immediate=0/0
+66 0f 3a 06 modRM=0 immediate=0/0
+66 0f 3a 0f modRM=0 immediate=0/0
+66 0f 3a 14 modRM=0 immediate=0/0
+66 0f 3a 15 modRM=0 immediate=0/0
+66 0f 3a 16 modRM=0 immediate=0/0
+66 0f 3a 17 modRM=0 immediate=0/0
+66 0f 3a 18 modRM=0 immediate=0/0
+66 0f 3a 19 modRM=0 immediate=0/0
+66 0f 3a 1d modRM=0 immediate=0/0
+66 0f 3a 20 modRM=0 immediate=0/0
+66 0f 3a 21 modRM=0 immediate=0/0
+66 0f 3a 22 modRM=0 immediate=0/0
+66 0f 3a 38 modRM=0 immediate=0/0
+66 0f 3a 39 modRM=0 immediate=0/0
+66 0f 3a 40 modRM=0 immediate=0/0
+66 0f 3a 41 modRM=0 immediate=0/0
+66 0f 3a 42 modRM=0 immediate=0/0
+66 0f 3a 44 modRM=0 immediate=0/0
+66 0f 3a 46 modRM=0 immediate=0/0
+66 0f 3a 4a modRM=0 immediate=0/0
+66 0f 3a 4b modRM=0 immediate=0/0
+66 0f 3a 4c modRM=0 immediate=0/0
+66 0f 3a 60 modRM=0 immediate=0/0
+66 0f 3a 61 modRM=0 immediate=0/0
+66 0f 3a 62 modRM=0 immediate=0/0
+66 0f 3a 63 modRM=0 immediate=0/0
+66 0f 3a df modRM=0 immediate=0/0
+f2 0f 3a f0 modRM=0 immediate=0/0

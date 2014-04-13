@@ -5,7 +5,8 @@
 	option	casemap:none
 	
 	BSIZE equ 15
-	PrC equ 11 ;количество префиксов
+	PrC equ 13 ;prefix count
+	PREFIXSTATE equ 17 ;state count in prefix fsm
 	
 	include user32.inc
 	includelib user32.lib
@@ -13,135 +14,108 @@
 	includelib kernel32.lib
 	
 	.data
-	ifmt	db "%0lu", 0
-	outp	db BSIZE dup(?)
-	prefix 	dw PrC dup(?)
-	state	db 100000 dup(?)
+	include prefix_state_table.dat ;opcodeState
+	include state_table.dat ;prefixState
+	include modRM_and_immediate_table.dat ;AvailabilityModrmImm
+	include modRM_state_table.dat ;modrmState
 	
 public disasm 
 	.code
-	disasm proc byteAddress, tableAddress, count
-	;Пока что передаем в функцию три параметра: адрес первого байта, адрес таблицы состояний, количество итераций
+	disasm proc byteAddress, count
+	;4 parameters: first byte address, state table address, prefix state table iteration count
 	push ebp
 
 	mov esi, byteAddress
-	mov ebx, tableAddress
 	mov ecx, count
-	call prefixInit
-	lea edi, prefix
-	push ecx ;сохраняем количество итераций, для следующего цикла
-		lfence
-		rdtsc
-		push eax
-		push edx
-			qwer:
-				push ecx
-					call getInstruction
-				pop ecx
-				push edi
-					lea edi, state
-					;mov [edi + ecx], edx
-				pop edi
-			loop qwer
-			rdtsc
-			mov ebx, eax
-			mov ecx, edx
-		pop edx
-		pop eax
-		sub ebx, eax
-		sub ecx, edx
-		mov edx, ebx
-	pop ecx;это если надо будет распечатывать результат
-	mov eax, ebx
+	mov eax, 0
+	pre:
+		mov al, [esi]
+		cmp eax, 69h
+	je q
+		add esi, 1
+	jmp pre
+	q:
+	lfence
+	rdtsc
+	cld
 	push eax
-		call printInstruction
+	push edx
+	mov eax, 0
+	mov al, [esi]
+		qwer:
+			push ecx
+				call getInstruction
+			pop ecx
+		loop qwer
+		rdtsc
+		mov ebx, eax
+		mov ecx, edx
+	pop edx
 	pop eax
+	sub ebx, eax
+	sub ecx, edx
+	mov edx, ebx
+	mov eax, ebx
 	pop ebp
 	ret
 disasm endp
-printInstruction proc
-	invoke GetStdHandle, -11
-	lea edi, state
-	print:
-		mov ebx, [edi + ecx]
-		push ecx
-			push eax
-				invoke	wsprintf, addr outp, addr ifmt, ebx
-			pop eax
-			invoke	WriteConsoleA, eax, addr outp, 10, 0, 0
-		pop ecx
-	loop print
-	ret
-printInstruction endp
-;адрес следующего байта хранится в регистре edi
-;адрес таблицы переходов для опкодов - в esi
-getInstruction proc
-	push ebx
-		call getPrefix
-	pop ecx
-	mov ebx, 0
-	instructionStart:
-		mov edx, ebx ;сохраняем текущее состояние
-		shl ebx, 8 ;умножаем на ширину таблицы
-		;shl ebx, 9 ;умножаем на ширину таблицы и еще на 2, потому что ячейки в таблице 2 байта
-		;shl eax, 1 ; по аналогичной причине умножаем входной байт на 2
-		add eax, ebx ;получаем смещение, по которому хранится следующее состояние
+
+;next byte address in esi
+getInstruction proc 
+;prefix
+		mov edx, 0
+		jmp start
+	prefixStart:
+		mov al, [esi]
+		add esi, 1
+	start:
+		mov ebx, edx
+		mov dx, prefixState[eax*2+edx]
+		test edx, edx ;compare state and 0
+		jnz prefixStart
+		test ebx, ebx
+		jz prefixQuit
+		sub ebx, 6144 ;при изменении принципа построения таблицы префиксов не забыть проверять это значение
+		ja prefixQuit
+		sub esi, 1
+		mov al, [esi]
+	prefixQuit:
+	push ebx ;save prefix state
+
+;opcode
 		mov ebx, 0
-		mov bl, [ecx + eax] ;получаем следующее состояние
-		test ebx, ebx ;сравниваем его с 0
-		jz exit
-		mov eax, 0
-		lodsb
-		jmp instructionStart
-	exit:
-	mov ebx, ecx
-	;заканчиваем работу функции
+		opcodeStart:
+				mov edx, ebx ;keep current state 
+				;сохраняем текущее состояние
+				;умножаем на ширину таблицы
+				shl edx, 9 ;9 - if size of the cell of state table is 2 byte
+				;получаем смещение, по которому хранится следующее состояние
+				mov bx, opcodeState[eax*2 + edx] ;take the next state
+				;получаем следующее состояние
+				test ebx, ebx ;compare state and 0
+				;сравниваем его с 0
+				jz exit
+			mov al, [esi]
+			add esi, 1
+				jmp opcodeStart
+		exit:
+	pop ebx ;load prefix state
+	
+;modRM
+	;здесь ошибка: добавляю я не просто состояние префиксов, а смещение. А использую, так, будто добавляю состояние
+	;в текущем тесте это неважно, префиксов тут нет, но как только заработает то что есть - надо поправить
+	add ebx, edx
+	mov edx, 0
+	mov ecx, 0
+	mov dx, AvailabilityModrmImm[ebx]
+	mov cl, modrmState[edx + eax]
+	add esi, ecx
+imm:
+	mov dx, AvailabilityModrmImm[ebx + PREFIXSTATE]
+	add esi, edx
+	mov al, [esi]
+endOfWork:
 	ret
 getInstruction endp
 
-getPrefix proc
-		cld
-		mov ebx, edi
-	prefixStart:	
-		mov edi, ebx
-		mov eax, 0
-		lodsb
-		mov ecx, 11 ;количество префиксов
-		repne scasb
-		test ecx, ecx
-		jz q
-		;запомнить результат
-		jmp prefixStart
-	q:	
-		mov edi, ebx
-		ret
-getPrefix endp
-
-prefixInit proc
-	push ecx
-	mov ecx, 0
-	mov [prefix + ecx],0f0h
-	inc ecx
-	mov [prefix + ecx],065h
-	inc ecx
-	mov [prefix + ecx],02fh
-	inc ecx
-	mov [prefix + ecx],03fh
-	inc ecx
-	mov [prefix + ecx],066h
-	inc ecx
-	mov [prefix + ecx],067h
-	inc ecx
-	mov [prefix + ecx],02eh
-	inc ecx
-	mov [prefix + ecx],03eh
-	inc ecx
-	mov [prefix + ecx],036h
-	inc ecx
-	mov [prefix + ecx],026h
-	inc ecx
-	mov [prefix + ecx],064h
-	pop ecx
-	ret
-prefixInit endp
 end

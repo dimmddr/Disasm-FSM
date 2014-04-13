@@ -4,7 +4,7 @@ use diagnostics;
 
 my $codesList = shift or die "Give me the file!";
 open my $codes, "<", $codesList or die "$!";
-open my $output, ">another_view_of_classes.txt" or die "wtf";
+open my $output, ">", "another_view_of_classes.txt" or die "wtf";
 my %class;
 while (<$codes>) {
 	chomp;
